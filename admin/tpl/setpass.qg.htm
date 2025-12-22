@@ -1,0 +1,81 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 管理员修改密码 -->
+<table width="100%">
+<tr>
+	<td class="qg_notice" style="text-align:left;"><a href="admin.php?file=index">系统首页</a> &raquo; 管理员密码修改</td>
+</tr>
+</table>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form method="post" action="{:$return_url}&act=setpassok" onsubmit="return chkpass();">
+<tr>
+	<td class="left">旧密码：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="password" name="old" id="old">
+		<span class="clue_on">[修改新密码前请先输入旧密码用于检查]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">新密码：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="password" name="new" id="new">
+		<span class="clue_on">[请输入一个新的密码，建议使用字母 + 数字]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">确认密码：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="password" name="chk" id="chk">
+		<span class="clue_on">[请再输入一次密码]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><input type="submit" value="更改密码"></td>
+</tr>
+</form>
+</table>
+</div>
+<script type="text/javascript">
+function chkpass(msg)
+{
+	var passold = $("old").value;
+	var passnew = $("new").value;
+	var passchk = $("chk").value;
+	if(!passold || !passnew || !passchk)
+	{
+		alert("加星号信息都是必填的！");
+		return false;
+	}
+	if(passnew != passchk)
+	{
+		alert("两次输入的密码不一致！");
+		return false;
+	}
+	if(passold == passnew)
+	{
+		alert("新旧密码一致！");
+		return false;
+	}
+}
+</script>
+<!-- inc:foot -->

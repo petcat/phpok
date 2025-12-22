@@ -1,0 +1,15 @@
+# 将 RewriteEngine 模式打开
+RewriteEngine On
+
+# 修改以下语句中的 /phpok 为你的程序目录地址，如果程序放在根目录中，请将 /phpok 修改为 /
+RewriteBase /
+
+# Rewrite 系统规则请勿修改
+RewriteRule ^index\.html$										index.php
+RewriteRule ^home.html$											home.php
+RewriteRule ^list-([0-9]+)-([0-9]+)\.html$						list.php?id=$1&pageid=$2
+RewriteRule ^msg-([0-9]+)\.html$								msg.php?id=$1
+RewriteRule ^msg-([0-9]+)-([0-9]+)\.html$						msg.php?id=$1&pageid=$2
+RewriteRule ^special-([0-9]+)\.html$							special.php?id=$1
+RewriteRule ^special-([0-9]+)-([0-9]+)\.html$					special.php?id=$1&pageid=$2
+RewriteRule ^book-(add|list)-([0-9]+)\.html$					book.php?act=$1&pageid=$2

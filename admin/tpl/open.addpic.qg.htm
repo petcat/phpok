@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="images/popen.css" />
+<script type="text/javascript" src="images/global.js"></script>
+<script type="text/javascript">
+if(qgIE == "IE" || qgIE == "IE6")
+{
+	var mEditor = window.parent.dialogArguments.FCKeditorAPI.GetInstance("{:$inputname}");
+	var mEditorType = window.parent.dialogArguments.FCK_EDITMODE_WYSIWYG;
+}
+else
+{
+	var mEditor = window.parent.opener.FCKeditorAPI.GetInstance("{:$inputname}");
+	var mEditorType = window.parent.opener.FCK_EDITMODE_WYSIWYG;
+}
+
+function ok()
+{
+	//
+	var msg = $("popen_msg").innerHTML;
+	if(mEditor.EditMode == mEditorType)
+	{
+		mEditor.InsertHtml(msg);
+		return true;
+	}
+	else
+	{
+		alert('请使用可视化编辑器');
+		return false;
+	}
+}
+//操作选中的图片,type可以是add或del
+function qg_setpic()
+{
+	var mytype = $("popen_value_type").value;
+	if(!mytype)
+	{
+		mytype = "mark";
+	}
+	var msg_array = new Array();
+	var cv = document.getElementsByTagName("input");
+	var m = 0;
+	for(var i=0; i<cv.length; i++)
+	{
+		if(cv[i].type.toLowerCase() == "checkbox")
+		{
+			if(cv[i].checked)
+			{
+				var mid = cv[i].value;
+				if(mid)
+				{
+					var m_id = "input_message_"+mid;
+					var v = $(m_id).value;
+					if(v)
+					{
+						var vv = v.split("|,|");
+						if(mytype == "thumb")
+						{
+							msg_array[m] = "<div><img src='"+vv[0]+"' border='0'></div>";
+						}
+						else if(mytype == "mark")
+						{
+							msg_array[m] = "<div><img src='"+vv[1]+"' border='0'></div>";
+						}
+						else
+						{
+							msg_array[m] = "<div><img src='"+vv[2]+"' border='0'></div>";
+						}
+						m++;
+					}
+				}
+			}
+		}
+	}
+	var message = msg_array.join(",");
+	if(message)
+	{
+		$("popen_msg").innerHTML = message;
+	}
+}
+</script>
+</head>
+<body>
+<table width="100%" cellpadding="0" cellspacing="1">
+<tr>
+	<form method="post" action="admin.php?file=open.addpic&act=addok&inputname={:$inputname}" enctype="multipart/form-data">
+	<td style="border-bottom:1px #D4D4D4 solid;">
+		<input type="file" name="iframeUpload">
+		<input type="submit" value="上传">
+		<select id="popen_value_type" onchange="qg_setpic();">
+			<option value="mark">水印图</option>
+			<option value="thumb">缩略图</option>
+			<option value="normal">原图</option>
+		</select>
+		&nbsp; 请在要添加的图片下面打上勾！
+	</td>
+	</form>
+</tr>
+</table>
+<div id="popen_msg" style="display:none"></div>
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+	<!-- $piclist AS $key=>$value -->
+	<td style="text-align:center;width:20%;height:100px;" align="center"><img src="{:$value[show_pic]}" width="90px" height="90px" border="0"><br /><input type="checkbox" name="pic_checkbox[]" value="{:$value[id]}" onclick="qg_setpic();"><input type="hidden" value="{:$value[input_message]}" id="input_message_{:$value[id]}" name="input_message_{:$value[id]}"></td>
+	<!-- row:5 -->
+	<!-- end -->
+</tr>
+</table>
+<!-- if($pagelist) -->
+<div align="right" style="padding-right:2px;">
+{:$pagelist}
+</div>
+<!-- end -->
+</body>
+</html>

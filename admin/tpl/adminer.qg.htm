@@ -1,0 +1,207 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 管理员管理 -->
+<!-- if($sysact == "add" || $sysact == "modify") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a> &raquo;
+	<a href="admin.php?file=adminer&act=list">管理员列表</a> &raquo;
+	<!-- if($sysact == "add") -->添加新管理员<!-- else -->编辑管理员<!-- end -->
+	<input type="button" value="管理员列表" onclick="qgurl('admin.php?file=adminer&act=list')">
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<!-- if($sysact == "modify") -->
+<form name="qgform" id="qgform" method="post" action="{:$r_url}modifyok&id={:$id}" onsubmit="return add_msg();">
+<!-- else -->
+<form name="qgform" id="qgform" method="post" action="{:$r_url}addok" onsubmit="return add_msg();">
+<!-- end -->
+<tr>
+	<td class="left">账号：<span style="color:red;">*</span></td>
+	<td class="right"><input type="text" name="username" id="username" value="{:$rs[user]}"></td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">密码：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="text" name="password" id="password" value="{:$rs[pass]}">
+		<!-- if($sysact == "modify") -->
+		<span class="clue_on">[不修改密码请不要改动内容]</span>
+		<!-- else -->
+		<span class="clue_on">[默认密码是123456]</span>
+		<!-- end -->
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">管理员邮箱：</td>
+	<td class="right"><input type="text" name="email" id="email" value="{:$rs[email]}"></td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">管理员类型：</td>
+	<td class="right">
+		<table cellpadding="1" cellspacing="0">
+		<tr>
+			<td><input type="radio" name="typer" value="system"{if($rs[typer] == "system")} checked{end}></td>
+			<td>系统管理员</td>
+			<td><input type="radio" name="typer" value="manager"{if($rs[typer] == "manager")} checked{end}></td>
+			<td>一般管理员</td>
+			<td><input type="radio" name="typer" value="editor"{if($rs[typer] != "manager" && $rs[typer] != "system")} checked{end}></td>
+			<td>工作人员</td>
+			<td class="clue_on">[一般管理员及工作人员需要针对以下模块权限进行设置]</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table">
+<table>
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right clue_on">部分权限仅限系统管理员才有：如管理员添加修改，数据库备份还原等</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">常用的模块权限：</td>
+	<td class="right">
+		<table cellpadding="1" cellspacing="0">
+		<tr>
+			<td><input type="checkbox" name="modulelist[]" value="notice"{if($module[notice])} checked{end}></td>
+			<td>公告</td>
+			<td><input type="checkbox" name="modulelist[]" value="orderlist"{if($module[orderlist])} checked{end}></td>
+			<td>订单管理</td>
+			<td><input type="checkbox" name="modulelist[]" value="user"{if($module[user])} checked{end}></td>
+			<td>会员档案</td>
+			<td><input type="checkbox" name="modulelist[]" value="picplay"{if($module[picplay])} checked{end}></td>
+			<td>图片播放器</td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" name="modulelist[]" value="link"{if($module[link])} checked{end}></td>
+			<td>友情链接</td>
+			<td><input type="checkbox" name="modulelist[]" value="vote"{if($module[vote])} checked{end}></td>
+			<td>投票管理</td>
+			<td><input type="checkbox" name="modulelist[]" value="nav"{if($module[nav])} checked{end}></td>
+			<td>导航管理</td>
+			<td><input type="checkbox" name="modulelist[]" value="book_feedback"{if($module[book_feedback])} checked{end}></td>
+			<td>留言反馈</td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" name="modulelist[]" value="online"{if($module[online])} checked{end}></td>
+			<td>客服代码</td>
+			<td><input type="checkbox" name="modulelist[]" value="job"{if($module[job])} checked{end}></td>
+			<td>招聘应聘</td>
+			<td><input type="checkbox" name="modulelist[]" value="ad"{if($module[ad])} checked{end}></td>
+			<td>广告管理</td>
+			<td><input type="checkbox" name="modulelist[]" value="special"{if($module[special])} checked{end}></td>
+			<td>单页面管理</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">内容模块权限：</td>
+	<td class="right">
+		<table cellpadding="1" cellspacing="0">
+		<tr>
+			<!-- $modlist AS $key=>$value -->
+			<td><input type="checkbox" name="modulelist[]" value="msg_{:$value[id]}"{if(strpos(",".$rs[modulelist].",",",".$value[id].",") !== false)} checked{end}></td>
+			<td>{:$value[groupname]}</td>
+			<!-- row:5 -->
+			<!-- end -->
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+
+<!-- run:$button_msg = $sysact == "modify" ? "编辑管理员" : "添加管理员" -->
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><input type="submit" id="creat_button" class="mybutton_01" value="{:$button_msg}"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</form>
+</table>
+</div>
+<script type="text/javascript">
+function add_msg(msg)
+{
+	var username = $("username").value;
+	if(!username)
+	{
+		alert("管理员名称不允许为空");
+		return false;
+	}
+
+	$("show_step").innerHTML = "<img src='images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+	$("creat_button").disabled = true;
+}
+</script>
+
+<!-- elseif($sysact == "list") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a> &raquo;
+	<a href="admin.php?file=adminer&act=list">管理员列表</a> &raquo;
+	<input type="button" value="添加管理员" onclick="qgurl('admin.php?file=adminer&act=add')">
+</div>
+
+
+<!-- $rslist AS $key=>$value -->
+<div id="user_{:$value[id]}" class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+	<td style="text-align:left;width:40%">&nbsp;{:$value[user]}</td>
+	<td style="text-align:left;width:40%">&nbsp;<a href="admin.php?file=email&act=send&email={:$value[email]}">{:$value[email]}</a></td>
+	<td style="text-align:right;width:20%;height:23px;">
+		<input type="button" value="编辑" class="mybutton_01" onclick="qg_modify({:$value[id]})">
+		<input type="button" value="删除" class="mybutton_01" onclick="qg_delete({:$value[id]})">
+	</td>
+</tr>
+</table>
+</div>
+<!-- end -->
+
+<script type="text/javascript">
+function qg_modify(id)
+{
+	qgurl("admin.php?file=adminer&act=modify&id="+id);
+}
+function qg_delete(id)
+{
+	//判断是否删除
+	question = confirm("确认删除该信息吗？特别说明，删除后无法恢复！");
+	if (question != "0")
+	{
+		qgurl("admin.php?file=adminer&act=delete&id="+id);
+	}
+}
+</script>
+<!-- end -->
+<!-- inc:foot -->

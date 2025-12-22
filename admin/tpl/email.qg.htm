@@ -1,0 +1,266 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 邮件设置 -->
+<!-- if($sysAct == "status") -->
+<div class="table2">
+		&nbsp;<a href="admin.php?file=index">系统首页</a>
+		&raquo; 设置是否开启邮件自动发送信息功能
+</div>
+<!-- if(!$mailserver) -->
+<div class="table2">&nbsp;您尚未设置SMTP信息，请先设置，才能启用邮件发送通知</div>
+<!-- end -->
+
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form method="post" action="admin.php?file=email&act=statusok" onsubmit="return SystemSet();">
+<tr>
+	<td class="left">开关：</td>
+	<td class="right">
+		<table cellpadding="1" cellspacing="0">
+		<tr>
+			<td><input type="radio" name="mailstatus" id="mailstatus_1" value="1"{if($rs[status])} checked{end}></td>
+			<td>启用</td>
+			<td><input type="radio" name="mailstatus" id="mailstatus_0" value="0"{if(!$rs[status])} checked{end}></td>
+			<td>禁用</td>
+			<td><span class="clue_on">[要使用邮件发送功能，请设置为启用]</span></td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">签名：</td>
+	<td class="right"><input type="text" name="sign" id="sign" value="{:$rs[sign]}" class="long_input"></td>
+</tr>
+</table>
+</div>
+
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right clue_on">请填写签名，不支持HTML，最长不要超过100个字符</td>
+</tr>
+</table>
+</div>
+
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><input type="submit" id="qgbutton" class="mybutton_01" value="设 置"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</form>
+</table>
+</div>
+
+<script type="text/javascript">
+function SystemSet()
+{
+	$("show_step").innerHTML = "<img src='images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+	$("qgbutton").disabled = true;
+}
+</script>
+<!-- elseif($sysAct == "msg") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a>
+	&raquo; 设置邮件发送内容
+</div>
+<!-- if(!$mailserver) -->
+<div class="table2">&nbsp;您尚未设置SMTP信息，请先设置，才能启用邮件发送通知</div>
+<!-- end -->
+
+<!-- if(!$rs[status]) -->
+<div class="table2">&nbsp;您尚未开启邮件发送功能，系统不会发送信息给客户，请先开启</div>
+<!-- end -->
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form method="post" action="admin.php?file=email&act=msgok" onsubmit="return add_msg();">
+<tr>
+	<td class="left">请选择项目：</td>
+	<td class="right">
+		<select name="usetype" id="usetype">
+		<option value="">请选择要操作的项目</option>
+		<option value="ordermsg_to_user"{if($usetype == "ordermsg_to_user")} selected{end}>下订单给客户发送通知</option>
+		<option value="ordermsg_to_admin"{if($usetype == "ordermsg_to_admin")} selected{end}>下订单给管理员发送通知</option>
+		</select>
+		<input type="button" onclick="fgoto();" value="确定">
+	</td>
+</tr>
+</table>
+</div>
+<script type="text/javascript">
+function fgoto()
+{
+	var usetype = $("usetype").value;
+	if(usetype)
+	{
+		var url = "admin.php?file=email&act=msg&usetype=" + usetype;
+		qgurl(url);
+	}
+}
+function add_msg()
+{
+	var subject = $("subject").value;
+	if(!subject)
+	{
+		alert("主题不允许为空");
+		return false;
+	}
+	var oEditor = FCKeditorAPI.GetInstance('content') ;
+	// Get the editor contents in XHTML.
+	msg = oEditor.GetXHTML( true );
+	if(!msg)
+	{
+		alert("邮件内容不能为空！");
+		return false;
+	}
+	$("show_step").innerHTML = "<img src='images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+	$("creat_button").disabled = true;
+}
+function ExtVar(id)
+{
+	var oEditor = FCKeditorAPI.GetInstance("content");
+	if(oEditor.EditMode == FCK_EDITMODE_WYSIWYG)
+	{
+		oEditor.InsertHtml(id);
+		return true;
+	}
+	else
+	{
+		alert("请使用可视化编辑模式才能插入变量");
+		return false;
+	}
+}
+</script>
+<!-- if($usetype) -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">邮件主题：</td>
+	<td class="right">
+		<input type="text" name="subject" id="subject" class="long_input" value="{:$msg[subject]}">
+		<span class="clue_on">[填写邮件主题，主题不支持任何变量]</span>
+	</td>
+</tr>
+</table>
+</div>
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">邮件内容：</td>
+	<td class="right clue_on">
+		<a href="#" onclick="ExtVar('{username}')" style="color:red;">{username}</a>
+		<a href="#" onclick="ExtVar('{subject}')" style="color:red;">{subject}</a>
+		<a href="#" onclick="ExtVar('{postdate}')" style="color:red;">{postdate}</a>
+		<a href="#" onclick="ExtVar('{ordersn}')" style="color:red;">{ordersn}</a>
+		<a href="#" onclick="ExtVar('{ordercount}')" style="color:red;">{ordercount}</a>
+		<a href="#" onclick="ExtVar('{unitprice}')" style="color:red;">{unitprice}</a>
+		<a href="#" onclick="ExtVar('{totalprice}')" style="color:red;">{totalprice}</a>
+		<a href="#" onclick="ExtVar('{adminemail}')" style="color:red;">{adminemail}</a>
+		<a href="#" onclick="ExtVar('{sitename}')" style="color:red;">{sitename}</a>
+	</td>
+</tr>
+</table>
+</div>
+{inc:fckeditor.msg}
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left"></td>
+	<td class="right"><input type="submit" id="creat_button" class="mybutton_01" value="更新信息"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</form>
+</table>
+</div>
+<!-- end-->
+
+<!-- elseif($sysAct == "send") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a>
+	&raquo; 在线发送邮件
+</div>
+<!-- if(!$mailserver) -->
+<div class="table2">&nbsp;您尚未设置SMTP信息，请先设置，才能启用邮件发送功能</div>
+<!-- end -->
+<form method="post" action="admin.php?file=email&act=sendok" onSubmit="return add_msg();">
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">收件人：</td>
+	<td class="right">
+		<input type="text" name="touser" id="touser" class="long_input" value="{:$email}">
+		<span class="clue_on">[多个收件人用英文逗号隔开，不超过5个]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">邮件主题：</td>
+	<td class="right">
+		<input type="text" name="subject" id="subject" class="long_input">
+		<span class="clue_on">[填写邮件主题]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">邮件内容：</td>
+	<td class="right clue_on">在线发送邮件不支持变量功能，这里使用可视化编辑，第一次加载会有点慢，请耐心等候...</td>
+</tr>
+</table>
+</div>
+{inc:fckeditor.msg}
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left"></td>
+	<td class="right"><input type="submit" id="creat_button" class="mybutton_01" value="发送信息"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</table>
+</div>
+</form>
+<script type="text/javascript">
+function add_msg()
+{
+	var touser = $("touser").value;
+	if(!touser)
+	{
+		alert("收件人不能为空！");
+		return false;
+	}
+	var subject = $("subject").value;
+	if(!subject)
+	{
+		alert("主题不允许为空");
+		return false;
+	}
+	var oEditor = FCKeditorAPI.GetInstance('content') ;
+	// Get the editor contents in XHTML.
+	msg = oEditor.GetXHTML( true );
+	if(!msg)
+	{
+		alert("邮件内容不能为空！");
+		return false;
+	}
+	$("show_step").innerHTML = "<img src='images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+	$("creat_button").disabled = true;
+}
+</script>
+<!-- end-->
+
+<!-- inc:foot -->

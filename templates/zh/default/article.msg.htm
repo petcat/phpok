@@ -1,0 +1,60 @@
+<!-- 文章内容页默认模板 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">当前分类 &nbsp;<!-- if($rs[parentid]) --><a href="list.php?id={:$rs[parentid]}">上级分类</a><!-- end --></div>
+	<div class="border_no_top">
+		<!-- $left_catelist AS $key=>$value -->
+		<div style="padding-left:20px;"><a href="list.php?id={:$value[id]}" style="{:$value[style]}{if($value[id] == $cateid)};color:red;{end}">{:$value[catename]}</a></div>
+		<!-- end -->
+	</div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">推荐文章</div>
+	<div class="border_no_top">
+		<!-- run:$mod_artlist = QGMOD_MSG_CATEID("isvouch DESC,hits ASC,orderdate DESC",26) -->
+		<!-- $mod_artlist AS $key=>$value -->
+		<div>&nbsp;※ <a href="msg.php?id={:$value[id]}" style="{:$value[style]}" title="{:$value[subject]}">{:$value[cut_subject]}</a></div>
+		<!-- end -->
+		<!-- run:unset($mod_artlist) -->
+	</div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">热门文章</div>
+	<div class="border_no_top">
+		<!-- run:$mod_artlist = QGMOD_MSG_CATEID("hits DESC,orderdate DESC",26) -->
+		<!-- $mod_artlist AS $key=>$value -->
+		<div>&nbsp;※ <a href="msg.php?id={:$value[id]}" style="{:$value[style]}" title="{:$value[subject]}">{:$value[cut_subject]}</a></div>
+		<!-- end -->
+		<!-- run:unset($mod_artlist) -->
+	</div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+<div id="right_1">
+	<div class="global_sub">内容：{:$rs[subject]}</div>
+	<div class="border_no_top">
+		<div class="msg_sub">{:$rs[subject]}</div>
+		<div class="msg_date">发布时间：{:$rs[postdate]} &nbsp; 点击率：{:$rs[hits]}</div>
+		<div class="msg_content">
+			<!-- 这里是Google里的信息 -->
+			<div style="float:right" align="right">{:QGMOD_AD(2)}</div>{:$content}
+			<div style="clear:both;"></div>
+		</div>
+		<div align="right">{:$pagelist}</div>
+	</div>
+</div>
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+
+<!-- inc:inc.foot -->

@@ -1,0 +1,151 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 编辑分类管理 -->
+<div align="center">
+<table width="100%">
+<tr>
+	<td class="qg_notice" style="text-align:left;"><a href="admin.php?file=index">系统首页</a> &raquo; <a href="admin.php?file=sysgroup&act=list">系统组管理</a> &raquo; {:$groupname}  &raquo; <a href="admin.php?file=category&act=list&sysgroupid={:$sysgroupid}">分类列表</a> &raquo; 编辑分类信息</td>
+</tr>
+</table>
+</div>
+<form name="qgform" id="qgform" method="post" action="admin.php?file=category&act=modifyok&id={:$id}" onsubmit="return chkadd();">
+<input type="hidden" value="{:$sysgroupid}" name="sysgroupid" id="sysgroupid">
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">分类名称：<span style="color:red;">*</span</td>
+	<td class="right">
+		<input type="text" name="catename" id="catename" value="{:$rs[catename]}">
+		<select name="catestyle">
+		<!-- $csslist AS $key=>$value -->
+		<option value="{:$value[style]}"{if($rs[catestyle] == $value[style])} selected{end}>{:$value[name]}</option>
+		<!-- end -->
+		</select>
+		<span class="clue_on">[禁止使用引号、逗号等标点符号及特殊符号]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">上级分类：<span style="color:red;">*</span></td>
+	<td class="right">
+		<select name="cateid">
+		<option value="0" style="color:red;">设为根分类</option>
+		<!-- $catelist AS $key=>$value -->
+		<option value="{:$value[id]}"{if($rs[parentid] == $value[id])} selected{end}>{:$value[space]}{:$value[catename]}</option>
+		<!-- end -->
+		</select> <span class="clue_on">[请选择一个分类]</span>
+	</td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">描述：</td>
+	<td class="right"><textarea name="note" style="width:400px;height:46px;overflow-y:hidden">{:$rs[note]}</textarea></td>
+</tr>
+</table>
+</div>
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right clue_on">[描述不能超级200个字符，不支持HTML语法]</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">显示：</td>
+	<td class="right"><input type="radio" name="status" value="1"{if($rs[status] == 1)} checked{end}>显示 <input type="radio" name="status" value="0"{if($rs[status] == 0 || !$rs[status])} checked{end}>隐藏 <span class="clue_on">[暂时不使用的分类可以点隐藏，前台将不会调用]</span></td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">排序：</td>
+	<td class="right"><input type="text" name="taxis" id="taxis" value="{:$rs[taxis]}" class="short_input"> <span class="clue_on">[数值越小越往前靠，最大不能超过255]</span></td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">每页显示数：</td>
+	<td class="right"><input type="text" name="psize" value="{:$rs[psize]}" class="short_input"> <span class="clue_on">[列表每页显示数目，建议不要超过50]</span></td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">列表模板：</td>
+	<td class="right"><input type="text" name="tpl_list" value="{:$rs[tpl_list]}"> <span class="clue_on">[不设置将使用系统默认{:$groupsign}.list.htm]</span></td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">内容模板：</td>
+	<td class="right"><input type="text" name="tpl_msg" value="{:$rs[tpl_msg]}"> <span class="clue_on">[不设置将使用系统默认{:$groupsign}.msg.htm]</span></td>
+</tr>
+</table>
+</div>
+
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">主题排序：</td>
+	<td class="right">
+		<select name="showtype">
+		<option value="0">默认排序</option>
+		<option value="1"{if($rs[showtype] == 1)} selected{end}>最新发布排序</option>
+		<option value="2"{if($rs[showtype] == 2)} selected{end}>点击率高的排前面</option>
+		<option value="3"{if($rs[showtype] == 3)} selected{end}>点击率低的排前面</option>
+		<select>
+		<span class="clue_on">[后台设置的置顶将不受此影响]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><input type="submit" id="creat_button" value="编辑分类" class="mybutton_01"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</table>
+</div>
+</form>
+
+<script type="text/javascript">
+function chkadd()
+{
+	var catename = $("catename").value;
+	if(!catename)
+	{
+		alert("分类名称不允许为空！");
+		return false;
+	}
+	$("show_step").innerHTML = "<img src='images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+	$("creat_button").disabled = true;
+}
+</script>
+
+<!-- inc:foot -->

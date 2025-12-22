@@ -1,0 +1,41 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<div class="table table1" style="padding-top:3px;padding-bottom:3px;">
+&nbsp;<a href="admin.php?file=index">系统首页</a>
+&raquo; <a href="{:$r_url}&act=list">系统组管理</a>
+<input type="button" value="创建新组" onclick="qgurl('{:$r_url}&act=add');">
+</div>
+
+<script language="JavaScript">
+function delete_confirm(aaa)
+{
+	question = confirm("确认删除该系统组吗？特别说明，删除前请将该组的信息删除！\n\n\t删除后无法恢复！");
+	if (question != "0")
+	{
+		var url = "{:$r_url}&act=delete&id="+aaa;
+		qgurl(url);
+	}
+}
+</script>
+
+<!-- $rslist AS $key=>$value -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'" id="list_id_{:$value[id]}">
+<table width="100%">
+<tr>
+	<td class="left">[id:{:$value[id]}] {:$value[groupname]}</td>
+	<td class="right">
+		<input type="button" value="编 辑" class="mybutton_01" onclick="qgurl('{:$r_url}&act=modify&id={:$value[id]}');">
+		<input type="button" value="删 除" class="mybutton_01" onclick="delete_confirm({:$value[id]});">
+		<input type="button" value="分类管理" class="mybutton_01" onclick="qgurl('{:$r_url}&act=list&sysgroupid={:$value[id]}');">
+		<input type="button" value="添加分类" class="mybutton_01" onclick="qgurl('{:$r_url}&act=add&sysgroupid={:$value[id]}');">
+		<input type="button" value="内容管理" class="mybutton_01" onclick="qgurl('admin.php?file=msg&act=list&sysgroupid={:$value[id]}');">
+		<input type="button" value="添加内容" class="mybutton_01" onclick="qgurl('{:$r_url}&act=add&sysgroupid={:$value[id]}');">
+	</td>
+</tr>
+</table>
+</div>
+<!-- end -->
+
+<!-- inc:foot -->

@@ -1,0 +1,117 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 订单管理 -->
+<table width="100%">
+<tr>
+	<td class="qg_notice" style="text-align:left;">
+		<a href="admin.php?file=index">系统首页</a>
+		&raquo;
+		<a href="admin.php?file=order&act=list">订单列表</a>
+	</td>
+</tr>
+</table>
+
+<div class="table" style="border-bottom:1px #D4D4D4 solid;">
+<table border="0">
+<form method="post" action="admin.php?file=order&act=list">
+<tr>
+	<td>关键字：</td>
+	<td><input type="text" name="keywords" id="keywords" value="{:$keywords}"></td>
+	<td>
+		<select name="stype" id="stype">
+			<option value="subject">主题</option>
+			<option value="sn">订单编号</option>
+			<option value="user"{if($stype == "user")} selected{end}>联系人</option>
+			<option value="email"{if($stype == "email")} selected{end}>邮箱</option>
+			<option value="address"{if($stype == "address")} selected{end}>联系人地址</option>
+			<option value="contact"{if($stype == "contact")} selected{end}>联系方式</option>
+			<option value="zipcode"{if($stype == "zipcode")} selected{end}>邮编</option>
+		</select>
+	</td>
+	<td>
+		<select name="status" id="status">
+			<option value="0"{if($status == "0" || !$ifcheck)} selected{end}>全部</option>
+			<option value="1"{if($status == 1)} selected{end}>已锁定</option>
+			<option value="2"{if($status == 2)} selected{end}>未锁定</option>
+		</select>
+	</td>
+	<td>
+		<input type="submit" value="搜索">
+	</td>
+</tr>
+</form>
+</table>
+</div>
+<!-- $msglist AS $key=>$value -->
+<div id="order_{:$value[id]}" class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+	<table width="100%" style="layout:fixed;" cellpadding="0" cellspacing="0">
+	<tr>
+		<td class="msg_subject">
+			<span class="msg_attr">[{:$value[sn]}][ID:{:$value[id]}]</span>
+			<a href="#" onclick="qgMsg({:$value[id]})">{:$value[subject]}</a>
+		</td>
+		<td class="msg_category">
+			<a href="#" onclick="qgUser({:$value[id]})">{:$value[user]}</a>
+		</td>
+		<td class="msg_hits">{:$value[msgcount]}</td>
+		<td class="msg_postdate">{:$value[postdate]}</td>
+		<td style="width:200px;height:25px;">
+			<input type="button" value="查看" class="mybutton_01" onclick="qgMsg({:$value[id]})">
+			<!-- if($value[status])-->
+			<input type="button" value="已锁定" class="mybutton_01" id="mybutton_{:$value[id]}" onclick="qgLock({:$value[id]})">
+			<!-- else -->
+			<input type="button" value="未锁定" class="mybutton_01" id="mybutton_{:$value[id]}" style="color:red;" onclick="qgLock({:$value[id]})">
+			<!-- end -->
+			<input type="button" value="删除" class="mybutton_01" onclick="qg_delete({:$value[id]})">
+		</td>
+	</tr>
+	</table>
+</div>
+<!-- end -->
+
+<div align="right">{:$pagelist}</div>
+
+<script type="text/javascript">
+function qgLock(id)
+{
+	if(!id)
+	{
+		alert("操作非法！");
+		return false;
+	}
+	qgurl("admin.php?file=order&act=status&id="+id);
+}
+function qgUser(id)
+{
+	if(!id)
+	{
+		alert("操作非法！");
+		return false;
+	}
+	var url = "admin.php?file=open.order&id=" + id;
+	qg_open(url,400);
+}
+function qgMsg(id)
+{
+	if(!id)
+	{
+		alert("操作非法！");
+		return false;
+	}
+	var url = "admin.php?file=open.order&id=" + id;
+	qg_open(url,400);
+}
+function qg_delete(id)
+{
+	//判断是否删除
+	question = confirm("确认删除该信息吗？特别说明，删除后无法恢复！");
+	if (question != "0")
+	{
+		qgurl("admin.php?file=order&act=delete&id="+id);
+	}
+}
+</script>
+
+<!-- inc:foot -->

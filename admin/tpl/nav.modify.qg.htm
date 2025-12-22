@@ -1,0 +1,85 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a>
+	&raquo; <a href="admin.php?file=nav&act=list">导航栏管理</a>
+	&raquo; 编辑导航栏信息
+	<input type="button" value="导航栏列表" onclick="qgurl('admin.php?file=nav&act=list')">
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form method="post" action="admin.php?file=nav&act=modifyok&id={:$id}" onsubmit="return chkadd();">
+<tr>
+	<td class="left">名称：</td>
+	<td class="right">
+		<input type="text" name="subject" id="subject" value="{:$rs[name]}">
+		<select name="style">
+		<!-- $csslist AS $key=>$value -->
+		<option value="{:$value[style]}" {if($value[style] == $rs[css])} selected{end}>{:$value[name]}</option>
+		<!-- end -->
+		</select>
+	</td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">链接：</td>
+	<td class="right"><input type="text" name="link" id="link" value="{:$rs[url]}" class="long_input"></td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">打开方式：</td>
+	<td class="right">
+		<table cellpadding="1" cellspacing="0">
+		<tr>
+			<td><input type="radio" name="target" value="0"{if(!$rs[target])} checked{end}></td>
+			<td>原窗口</td>
+			<td><input type="radio" name="target" value="1"{if($rs[target])} checked{end}></td>
+			<td>新窗口</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">排序：</td>
+	<td class="right"><input type="text" name="taxis" id="taxis" value="{:$rs[taxis]}" class="short_input"><span style="clue_on"> [数值越小越往前靠，最大不超过255]</span></td>
+</tr>
+</table>
+</div>
+
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><input type="submit" id="creat_button" class="mybutton_01" value="编辑"></td>
+</tr>
+</table>
+</div>
+</form>
+<script type="text/javascript">
+function chkadd()
+{
+	var subject = $("subject").value;
+	if(!subject)
+	{
+		alert("名称不允为空...");
+		return false;
+	}
+	$("creat_button").disabled = true;
+}
+</script>
+<!-- inc:foot -->

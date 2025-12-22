@@ -1,0 +1,156 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 数据库管理 -->
+<!-- if($sys_act == "list") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a> &raquo;
+	<a href="admin.php?file=sqlbak&act=list">数据库管理</a>
+	<input value="数据库恢复" type="button" onclick="qgurl('admin.php?file=sqlbak&act=qgrecover');">
+</div>
+
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr class="table table2">
+	<td height="23px" class="msg_checkbox b_b">&nbsp;</td>
+	<td class="msg_subject b_b">表名称</td>
+	<td class="msg_category b_b" style="text-align:right">行数</td>
+	<td class="msg_category b_b" style="text-align:right">内容大小</td>
+	<td class="msg_category b_b" style="text-align:right">多余空间</td>
+</tr>
+<!-- $tables AS $key=>$value -->
+<tr class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+	<td align="center" class="b_b"><input type="checkbox" name="tbl[]" value="{:$value[Name]}"></td>
+	<td align="left" class="b_b">{:$value[Name]}</td>
+	<td align="right" class="b_b">{:$value[Rows]}&nbsp;</td>
+	<td align="right" class="b_b">{:$value[Data_length]}&nbsp;</td>
+	<td align="right" class="b_b">{:$value[Data_free]}&nbsp;</td>
+</tr>
+<!-- end -->
+</table>
+
+<div class="table">
+<input type="button" value="全选" onclick="select_all()">
+<input type="button" value="反选" onclick="revCheck()">
+<input type="button" value="全不选" onclick="selectNone()">
+<input type="button" value="修复数据表" onclick="qg_pl('repair')">
+<input type="button" value="优化数据表" onclick="qg_pl('optimize')">
+<input type="text" value="{run:echo substr(md5($system_time),8,13).rand(1,9)}" id="backup_filename">
+<input type="button" value="备份选定的数据表" onclick="qg_pl('backup')">
+<input type="button" value="备份所有数据" onclick="qg_pl('all')">
+</div>
+
+<script type="text/javascript">
+function qg_pl(qgtype)
+{
+	var url = "admin.php?file=sqlbak";
+	if(qgtype == "all")
+	{
+		var filename = $("backup_filename").value;
+		if(!filename || filename == "")
+		{
+			alert("请填写要备份的文件名");
+			return false;
+		}
+		url += "&act=back&filename="+filename;
+		qgurl(url);
+		return true;
+	}
+	var idarray = new Array();//定义一个数组
+	var cv = document.getElementsByTagName("input");
+	var m = 0;
+	for(var i=0; i<cv.length; i++)
+	{
+		if(cv[i].type.toLowerCase() == "checkbox")
+		{
+			if(cv[i].checked)
+			{
+				idarray[m] = cv[i].value;
+				m++;
+			}
+		}
+	}
+	var id = idarray.join(",");
+	if(!id || id == "0")
+	{
+		alert("没有勾选要操作的主题！");
+		return false;
+	}
+	if(qgtype == "repair")
+	{
+		url += "&act=repair";
+	}
+	else if(qgtype == "backup")
+	{
+		var filename = $("backup_filename").value;
+		if(!filename || filename == "")
+		{
+			alert("请填写要备份的文件名");
+			return false;
+		}
+		url += "&act=back&filename="+filename;
+		url += "&tbls=" + id + "";
+	}
+	else
+	{
+		url += "&act=optimize";
+	}
+	url += "&tbls=" + id + "";
+	qgurl(url);
+	return true;
+}
+</script>
+<!-- elseif($sys_act == "qgrecover") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a> &raquo;
+	<a href="admin.php?file=sqlbak&act=qgrecover">数据库恢复</a>
+	<input value="数据库管理" type="button" onclick="qgurl('admin.php?file=sqlbak&act=list');">
+</div>
+<!-- $baklist AS $key=>$value -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+	<td align="left" height="22" title="备份文件中包含表：{:$value[tables]}">&nbsp;{:$value[filename]}</td>
+	<td align="left" width="15%">大小：{:$value[filesize]}</td>
+	<td align="center" width="15%">{:$value[time]}</td>
+	<td width="15%" align="center">
+		<input type="button" value="恢复" onclick="qg_recover('{:$value[filename]}')" />
+		<input type="button" value="删除" onclick="qg_delete('{:$value[filename]}')" />
+	</td>
+</tr>
+</table>
+</div>
+<!-- end -->
+<script type="text/javascript">
+function qg_delete(filename)
+{
+	var q = confirm("确定要删除 " + filename + " 数据备份文件吗？删除后是不能恢复的");
+	if(q != "0")
+	{
+		if(!filename || filename == "")
+		{
+			alert("操作非法");
+			return false;
+		}
+		var url = "admin.php?file=sqlbak&act=delete&filename="+filename;
+		window.location.href=url;
+	}
+}
+function qg_recover(filename)
+{
+	var q = confirm("确定要恢复 " + filename + " 数据备份文件吗？恢复后现有数据表信息将会丢失且不能恢复");
+	if(q != "0")
+	{
+		if(!filename || filename == "")
+		{
+			alert("操作非法");
+			return false;
+		}
+		var url = "admin.php?file=sqlbak&act=recover&filename="+filename;
+		window.location.href=url;
+	}
+}
+</script>
+<!-- end -->
+
+<!-- inc:foot -->

@@ -1,0 +1,92 @@
+<!-- 反馈信息 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<script type="text/javascript">
+function qgcheck()
+{
+	var subject = $("jobname").value;
+	if(!subject)
+	{
+		alert("Jobname is empty");
+		$("jobname").focus();
+		return false;
+	}
+	$("qgsubmit").disabled = true;
+	return true;
+}
+</script>
+
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">Google AD</div>
+	<div class="border_no_top">
+		<div align="center" style="padding-top:3px;padding-bottom:3px;">{:QGMOD_AD(8)}</div>
+	</div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+<div id="right_1">
+	<!-- 提交反馈信息 -->
+	<a name="addbook"></a>
+	<div class="global_sub">Write some message...</div>
+	<div class="border_no_top">
+		<div>
+		<table width="99%">
+		<form method="post" action="job.php?file=apply&act=ok&id={:$id}" onsubmit="return qgcheck();" enctype="multipart/form-data">
+		<tr>
+			<td align="right"><span style="color:red;">*</span> Postion: </td>
+			<td><input type="text" name="jobname" id="jobname" style="width:300px;" value="{:$rs[jobname]}" /></td>
+		</tr>
+		<tr>
+			<td align="right"><span style="color:red;">*</span> Your Name: </td>
+			<td><input type="text" name="username" id="username" style="width:150px;" /></td>
+		</tr>
+		<tr>
+			<td align="right"><span style="color:red;">*</span> Age: </td>
+			<td><input type="text" name="age" id="age" style="width:55px;" /></td>
+		</tr>
+		<tr>
+			<td align="right"><span style="color:red;">*</span> Height: </td>
+			<td><input type="text" name="height" id="height" style="width:55px;" /> CM</td>
+		</tr>
+		<tr>
+			<td align="right"><span style="color:red;">*</span> School Age: </td>
+			<td><input type="text" name="schoolage" id="schoolage" style="width:300px;" /></td>
+		</tr>
+		<tr>
+			<td align="right"><span style="color:red;">*</span> Contact: </td>
+			<td><input type="text" name="contact" id="contact" style="width:200px;" /> [Mobile Or Phone]</td>
+		</tr>
+		<tr>
+			<td align="right">Photo: </td>
+			<td><input type="file" name="photo" id="photo" /> [filesize: 300*400, Only "jpg" AND "gif"]</td>
+		</tr>
+		<tr>
+			<td align="right"> Note: </td>
+			<td><textarea name="content" id="content" style="width:90%;height:100px;"></textarea></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><input type="submit" value="Submit" class="button" /></td>
+		</tr>
+		</form>
+		</table>
+		</div>
+	</div>
+
+</div>
+
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+
+<!-- inc:inc.foot -->

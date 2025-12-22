@@ -1,0 +1,112 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="images/popen.css" />
+<script type="text/javascript" src="images/global.js"></script>
+<style type="text/css">
+img
+{
+	cursor:pointer;
+}
+</style>
+<!-- run: $system_url = GetSystemUrl(); -->
+<script type="text/javascript">
+if(qgIE == "IE" || qgIE == "IE6")
+{
+	var mEditor = window.parent.dialogArguments.FCKeditorAPI.GetInstance("{:$inputname}");
+	var mEditorType = window.parent.dialogArguments.FCK_EDITMODE_WYSIWYG;
+}
+else
+{
+	var mEditor = window.parent.opener.FCKeditorAPI.GetInstance("{:$inputname}");
+	var mEditorType = window.parent.opener.FCK_EDITMODE_WYSIWYG;
+}
+
+var systemUrl = "{:$system_url}";//定义系统网站链接
+
+function ok()
+{
+	var idarray = new Array();//定义一个数组
+	var cv = document.getElementsByTagName("input");
+	var m = 0;
+	var qgImg = "ima" + "ges";
+	for(var i=0; i<cv.length; i++)
+	{
+		if(cv[i].type.toLowerCase() == "checkbox")
+		{
+			if(cv[i].checked)
+			{
+				var id = cv[i].value;
+				var in_name = "tmpname_"+id;
+				var tmpname = $(in_name).value;
+				idarray[m] = "<div><a href='"+systemUrl+"dfile.php?id="+id+"' target='_blank'><img src='"+systemUrl+qgImg+"/download.gif' border='0'> 点击下载附件</a> &nbsp; "+tmpname+"</div>";
+				m++;
+			}
+		}
+	}
+	//合并数组成字符串
+	var msg = idarray.join("");
+	if(!msg || msg == "0")
+	{
+		alert("请选择要添加的文件！");
+		return false;
+	}
+	if(mEditor.EditMode == mEditorType)
+	{
+		mEditor.InsertHtml(msg);
+		return true;
+	}
+	else
+	{
+		alert('请使用可视化编辑器');
+		return false;
+	}
+}
+</script>
+</head>
+<body style="overflow:hidden">
+<table width="100%" cellpadding="0" cellspacing="1">
+<tr>
+	<td class="qg_notice" style="text-align:left;">仅提供支持zip、rar和tar.gz格式小文件上传，PHPOK官方推荐您使用zip格式的压缩文件</td>
+</tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="1">
+<tr>
+	<form method="post" action="admin.php?file=open.upfiles&act=addok&inputname={:$inputname}" enctype="multipart/form-data">
+	<td style="border-bottom:1px #D4D4D4 solid;">
+		名称：<input type="text" name="setname" style="height:14px;width:150px;line-height:100%;">
+		上传：<input type="file" name="iframeUpload" style="height:20px;">
+		<input type="submit" value="上传">
+	</td>
+	</form>
+</tr>
+</table>
+<style type="text/css">
+.qg_tdheight
+{
+	width:22px;
+	height:22px;
+}
+</style>
+<!-- $filelist AS $key=>$value -->
+<div class="table" id="upfiles_{:$value[id]}" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+	<td class="qg_tdheight" title="要插入该附件请打勾"><input type="checkbox" name="plset[]" value="{:$value[id]}"></td>
+	<td title="文件：{:$value[tmpname]}">{:$value[vTmpname]}</td>
+	<td style="width:80px;text-align:right;" title="文件大小：{:$value[filesize]}">{:$value[filesize]}</td>
+	<td style="width:140px;text-align:center;" title="上传时间：{:$value[postdate]}">{:$value[postdate]}</td>
+	<td style="width:30px;text-align:center;"><a href="{:$system_url}dfile.php?id={:$value[id]}" target="_blank" title="下载附件"><img src="images/download.gif" border="0" title="下载附件"></a></td>
+	<input type="hidden" name="tmpname_{:$value[id]}" id="tmpname_{:$value[id]}" value="{:$value[tmpname]}&nbsp;－&nbsp;附件大小：{:$value[filesize]}">
+</tr>
+</table>
+</div>
+<!-- end -->
+<!-- if($pagelist) -->
+<div align="right" style="padding-right:2px;">
+{:$pagelist}
+</div>
+<!-- end -->
+</body>
+</html>

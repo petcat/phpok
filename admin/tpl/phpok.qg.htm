@@ -1,0 +1,164 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 广告管理 -->
+<!-- if($sysact == "add" || $sysact == "modify") -->
+<table width="100%">
+<tr>
+	<td class="qg_notice" style="text-align:left;">
+		<a href="admin.php?file=index">系统首页</a>
+		&raquo; <a href="admin.php?file=phpok&act=list">广告列表</a>
+		<!-- if($sysact == "modify") -->
+		&raquo; 编辑广告：{:$rs[subject]}
+		<!-- else -->
+		添加新广告代码
+		<!-- end -->
+		<input type="button" onclick="qgurl('admin.php?file=phpok&act=list')" value="广告管理">
+	</td>
+</tr>
+</table>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form name="qgform" method="post" action="admin.php?file=phpok&act=viewok&id={:$id}" onsubmit="return chkadd();">
+<tr>
+	<td class="left">主题：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="text" name="subject" id="subject" class="long_input" value="{:$rs[subject]}">
+		<input type="radio" name="status" value="0"{if(!$rs[status])} checked{end}>锁定
+		<input type="radio" name="status" value="1"{if($rs[status] == 1)} checked{end}>正常
+	</td>
+</tr>
+</table>
+</div>
+
+<script src="images/date.js"></script>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">广告时间：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="text" name="start_date" id="start_date" value="{:$rs[start_date]}" onClick="javascript:ShowCalendar('start_date')">
+		 - 
+		<input type="text" name="end_date" id="end_date" value="{:$rs[end_date]}" onClick="javascript:ShowCalendar('end_date')">
+		&nbsp;
+		&nbsp;<input type="button" value="插入图片" onclick="qg_openpicture();">
+	</td>
+</tr>
+</table>
+</div>
+
+<div>{:$fckeditor}</div>
+
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><input type="submit" class="mybutton_01" id="mybutton_001" value="提 交"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</form>
+</table>
+</div>
+
+<script type="text/javascript">
+function qg_openpicture()
+{
+	var url;
+	url = "admin.php?file=open.addpic&act=add&inputname=content";
+	qg_open(url,"560");
+}
+
+function FCKeditor_OnComplete(editorInstance)
+{ 
+	editorInstance.SwitchEditMode(); 
+}
+
+function chkadd()
+{
+	var subject = $("subject").value;
+	if(!subject)
+	{
+		alert("广告题头不能为空！");
+		return false;
+	}
+	$("mybutton_001").disabled = true;
+}
+</script>
+
+<!-- else -->
+<table width="100%">
+<tr>
+	<td class="qg_notice" style="text-align:left;">
+		<a href="admin.php?file=index">系统首页</a>
+		&raquo; 广告列表
+		<input type="button" onclick="qgurl('admin.php?file=phpok&act=add')" value="添加新广告">
+	</td>
+</tr>
+</table>
+
+<div class="table" style="border-bottom:1px #D4D4D4 solid;">
+<table>
+<form method="post" action="admin.php?file=phpok&act=list">
+<tr>
+	<td>关键字：</td>
+	<td><input type="text" name="keywords" id="keywords" value="{:$keywords}"></td>
+	<td>
+		<select name="ifcheck" id="ifcheck">
+		<option value="0"{if($ifcheck == "0" || !$ifcheck)} selected{end}>全部</option>
+		<option value="1"{if($ifcheck == 1)} selected{end}>正常</option>
+		<option value="2"{if($ifcheck == 2)} selected{end}>锁定</option>
+		</select>
+	</td>
+	<td><input type="submit" value="搜索"></td>
+</tr>
+</form>
+</table>
+</div>
+
+<div>
+<table width="100%" style="layout:fixed;" cellpadding="0" cellspacing="0">
+<tr bgcolor="#1A4F97">
+	<td align="center" style="color:#FFF;height:25px;">名称</td>
+	<td width="8%" align="center" style="color:#FFF;">状态</td>
+	<td width="15%" align="center" style="color:#FFF;">开始时间</td>
+	<td width="15%" align="center" style="color:#FFF;">结束时间</td>
+	<td width="20%" align="center" style="color:#FFF;">操 作</td>
+</tr>
+<!-- $adlist AS $key=>$value -->
+<tr class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+	<td align="left" height="25px" class="b_b">
+		<span class="msg_attr">[ID:{:$value[id]}]</span>
+		<a href="admin.php?file=phpok&act=modify&id={:$value[id]}">{:$value[subject]}</a>
+	</td>
+	<td align="center" class="b_b"><!-- if($value[status]) -->正常<!-- else --><span style="color:red;">锁定</span><!-- end --></td>
+	<td align="center" class="b_b">{:$value[start_date]}</td>
+	<td align="center" class="b_b">{:$value[end_date]}</td>
+	<td align="center" class="b_b">
+		<input type="button" value="编辑" class="mybutton_01" onclick="qg_view({:$value[id]})">
+		<input type="button" value="删除" class="mybutton_01" onclick="qg_delete({:$value[id]})">
+	</td>
+</tr>
+<!-- end -->
+</table>
+</div>
+
+<div align="right">{:$pagelist}</div>
+
+<script type="text/javascript">
+function qg_view(id)
+{
+	qgurl("admin.php?file=phpok&act=modify&id="+id);
+}
+function qg_delete(id)
+{
+	//判断是否删除
+	question = confirm("确认删除该信息吗？特别说明，删除后无法恢复！");
+	if (question != "0")
+	{
+		qgurl("admin.php?file=phpok&act=delete&id="+id);
+	}
+}
+</script>
+<!-- end -->
+
+<!-- inc:foot -->

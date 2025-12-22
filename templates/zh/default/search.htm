@@ -1,0 +1,54 @@
+<!-- 文章列表页模板 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+	<div><!-- inc:inc.search --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">推荐文章</div>
+	<div class="border_no_top">
+		<!-- run:$mod_artlist = QGMOD_LIST_IDIN("isvouch DESC,hits ASC,orderdate DESC",26) -->
+		<!-- $mod_artlist AS $key=>$value -->
+		<div>&nbsp;※ <a href="msg.php?id={:$value[id]}" style="{:$value[style]}" title="{:$value[subject]}">{:$value[cut_subject]}</a></div>
+		<!-- end -->
+		<!-- run:unset($mod_artlist) -->
+	</div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">热门文章</div>
+	<div class="border_no_top">
+		<!-- run:$mod_artlist = QGMOD_LIST_IDIN("istop DESC,hits DESC,orderdate DESC",26) -->
+		<!-- $mod_artlist AS $key=>$value -->
+		<div>&nbsp;※ <a href="msg.php?id={:$value[id]}" style="{:$value[style]}" title="{:$value[subject]}">{:$value[cut_subject]}</a></div>
+		<!-- end -->
+		<!-- run:unset($mod_artlist) -->
+	</div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+<div id="right_1">
+	<div class="global_sub">搜索结果</div>
+	<div class="border_no_top">
+		<!-- $searchlist AS $key=>$value -->
+		<div class="list_out" onmouseover="this.className='list_over'" onmouseout="this.className='list_out'">
+			<div style="height:23px;background:#EEF4FD;">&nbsp;※ <a href="msg.php?id={:$value[id]}" target="_blank">{:$value[subject]}</a> &nbsp; <span style="font-size:11px;">({run:echo date("Y-m-d H:i",$value[postdate])})</span></div>
+			<!-- if($value[ext_docket]) -->
+			<div style="padding:5px;">{:$value[ext_docket]}</div>
+			<!-- end -->
+		</div>
+		<!-- end -->
+	</div>
+	<div align="right">{:$pagelist}</div>
+</div>
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+<!-- inc:inc.foot -->

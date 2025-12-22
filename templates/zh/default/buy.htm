@@ -1,0 +1,133 @@
+<!-- 文章列表页模板 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+	<div class="global_sub">Google广告</div>
+	<div class="border_no_top">
+		<div align="center" style="padding-top:3px;padding-bottom:3px;">
+<script type="text/javascript"><!--
+google_ad_client = "pub-3996640094115586";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+		</div>
+	</div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+<div id="right_1">
+	<div class="global_sub">购买商品</div>
+	<div class="border_no_top">
+
+		<div style="padding:10px;">
+		<table width="90%">
+		<form method="post" action="buy.php?act=buyok&id=" name="qg_buy" onsubmit="return check_buymsg();">
+		<tr>
+			<td width="23%">商品名称：<span style="color:red;">*</span></td>
+			<td><input type="text" name="subject" id="buy_subject" style="width:300px" value="{:$rs[subject]}"> [请填写您要购买的商品名称]</td>
+		</tr>
+		<tr>
+			<td>购买数量：<span style="color:red;">*</span></td>
+			<td><input type="text" name="buycount" id="buycount" style="width:45px;" value="1"> [如果您需要大量购买，请联系我们]</td>
+		</tr>
+		<tr>
+			<td>联系姓名：<span style="color:red;">*</span></td>
+			<td><input type="text" name="username" id="buy_username" value="{:$usermsg[user]}"> [请填写您的真实姓名或会员账号]</td>
+		</tr>
+		<tr>
+			<td>联系方式：<span style="color:red;">*</span></td>
+			<td><input type="text" name="contact" id="contact" value="{:$usermsg[phone]}"> [请填写联系电话或手机号，以便我们能联系上您]</td>
+		</tr>
+		<tr>
+			<td>联系地址：<span style="color:red;">*</span></td>
+			<td><input type="text" name="address" id="address" value="{:$usermsg[address]}" style="width:300px"></td>
+		</tr>
+		<tr>
+			<td>邮政编号：<span style="color:white;">*</span></td>
+			<td><input type="text" name="zipcode" id="zipcode" value="{:$usermsg[zipcode]}" style="width:75px;"> [请填写邮政编号]</td>
+		</tr>
+		<tr>
+			<td>联系邮箱：<span style="color:white;">*</span></td>
+			<td><input type="text" name="email" id="email" value="{:$usermsg[email]}"> [建议您填写邮箱，系统会发一封邮件到您的邮箱上]</td>
+		</tr>
+		<tr>
+			<td>其他说明：<span style="color:white;">*</span></td>
+			<td><input type="text" name="note" id="note" style="width:300px"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="image" src="images/orderok.gif" style="border:0;" /></td>
+		</tr>
+		</form>
+		</table>
+	</div>
+</div>
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+
+<script type="text/javascript">
+function check_buymsg()
+{
+	var username = $("buy_username").value;
+	var buycount = $("buycount").value;
+	var subject = $("buy_subject").value;
+	var contact = $("contact").value;
+	var address = $("address").value;
+	var email = $("email").value;
+	if(username == "")
+	{
+		alert("联系人姓名为空，请填写...");
+		$("buy_username").focus();
+		return false;
+	}
+	if(parseInt(buycount) <1)
+	{
+		alert("商品数量不能小于1，如果您需要大量订购，请联系我们...");
+		$("buycount").focus();
+		return false;
+	}
+	if(subject == "")
+	{
+		alert("商品名称不能为空...");
+		$("buy_subject").focus();
+		return false;
+	}
+	if(address == "")
+	{
+		alert("联系地址不能为空...");
+		$("address").focus();
+		return false;
+	}
+	if(contact == "")
+	{
+		alert("联系方式不能为空，请填写手机号或电话，以便管理员能联系上您...");
+		$("contact").focus();
+		return false;
+	}
+	if(email)
+	{
+		if(!checkemail(email))
+		{
+			alert("邮箱填写不正确！");
+			$("email").value = "";
+			$("email").focus();
+			return false;
+		}
+	}
+	$("order_submit").disabled=true;
+}
+</script>
+<!-- inc:inc.foot -->

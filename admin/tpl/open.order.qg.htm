@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="images/popen.css" />
+<script type="text/javascript" src="images/global.js"></script>
+</head>
+<script type="text/javascript">
+function ok()
+{
+	return true;
+}
+</script>
+<style type="text/css">
+.a
+{
+	height:25px;
+	border-bottom:1px #D4D4D4 solid;
+}
+.b
+{
+	color:red;
+}
+</style>
+<body>
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+	<td width="130px" align="right" class="a" style="color:#AAAAAA;">主题（商品名称）：</td>
+	<td colspan="3" align="left" class="a">{:$rs[subject]}&nbsp;</td>
+</tr>
+<tr>
+	<td align="right" class="a" style="color:#AAAAAA;">购买数量：</td>
+	<td colspan="3" align="left" class="a">{:$rs[msgcount]}&nbsp;</td>
+</tr>
+<tr>
+	<td align="right" class="a" style="color:#AAAAAA;">联系人：</td>
+	<td colspan="3" align="left" class="a">{:$rs[user]}</td>
+</tr>
+<tr>
+	<td align="right" class="a" style="color:#AAAAAA;">联系邮箱：</td>
+	<td colspan="3" align="left" class="a">{:$rs[email]}&nbsp;</td>
+</tr>
+<tr>
+	<td align="right" class="a" style="color:#AAAAAA;">联系方式：</td>
+	<td align="left" class="a">{:$rs[contactmode]}&nbsp;</td>
+	<td width="130px" align="right" class="a" style="color:#AAAAAA;">邮编：</td>
+	<td align="left" class="a">{:$rs[zipcode]}&nbsp;</td>
+</tr>
+<tr>
+	<td align="right" class="a" style="color:#AAAAAA;">联系地址：</td>
+	<td colspan="3" align="left" class="a">{:$rs[address]}&nbsp;</td>
+</tr>
+<tr>
+	<td align="right" class="a" style="color:#AAAAAA;">下单时间：</td>
+	<td colspan="3" align="left" class="a">{:$rs[postdate]}&nbsp;</td>
+</tr>
+<tr>
+	<td colspan="4" align="left" class="a" style="padding:10px;">{:$rs[note]}&nbsp;</td>
+</tr>
+<tr>
+	<td colspan="4" align="left" style="height:5px;">&nbsp;</td>
+</tr>
+</table>
+</body>
+</html>

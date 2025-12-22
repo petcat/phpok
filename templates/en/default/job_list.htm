@@ -1,0 +1,65 @@
+<!-- 反馈信息 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">Google AD</div>
+	<div class="border_no_top">
+		<div align="center" style="padding-top:3px;padding-bottom:3px;">{:QGMOD_AD(8)}</div>
+	</div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+<div id="right_1">
+	<!-- $joblist AS $key=>$value -->
+	<!-- run:$value["postdate"] = date("Y-m-d",$value["postdate"]) -->
+	<!-- run:$value["enddate"] = $value["enddate"] ? date("Y-m-d",$value["enddate"]) : "长期招聘" -->
+	<!-- run:$value["gender"] = ($value["gender"] && $value["gender"] !=0) ? ($value["gender"] == 1 ? "男" : "女") : "不限"; -->
+	<div class="global_sub">Position: {:$value[jobname]} <span style="font-size:11px;">(Postdate: {:$value[postdate]})</span></div>
+	<div class="border_no_top">
+		<div style="padding:5px;">
+			<div style="border:1px #D2DFE6 dashed;padding:5px;">
+				<table>
+				<tr>
+					<td width="100px" align="right">Count: </td>
+					<td width="150px">{:$value[usercount]}&nbsp;</td>
+					<td width="100px" align="right">Age: </td>
+					<td width="150px">{:$value[age]}&nbsp;</td>
+				</tr>
+				<tr>
+					<td align="right">Experience: </td>
+					<td>{:$value[experience]}&nbsp;</td>
+					<td align="right">Gender: </td>
+					<td>{:$value[gender]}&nbsp;</td>
+				</tr>
+				<tr>
+					<td align="right">Height: </td>
+					<td>{:$value[height]}</td>
+				</tr>
+				</table>
+			</div>
+		</div>
+		<!-- if($value[content]) -->
+		<div style="padding:5px;">
+			<div style="border:1px #D2DFE6 dashed;padding:5px;"><span style="color:red;">Note: </span>{:$value[content]}</div>
+		</div>
+		<!-- end -->
+		<div align="right"><a href="job.php?file=apply&id={:$value[id]}">I will aplly it</a>&nbsp;</div>
+	</div>
+	<div class="space_between"><div class="space_between"></div></div>
+	<!-- end -->
+</div>
+
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+
+<!-- inc:inc.foot -->

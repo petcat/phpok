@@ -1,0 +1,49 @@
+<!-- 文章列表页模板 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">Category &nbsp;<!-- if($thiscate[parentid]) --><a href="list.php?id={:$thiscate[parentid]}">Parent</a><!-- end --></div>
+	<div class="border_no_top">
+		<!-- $left_catelist AS $key=>$value -->
+		<div style="padding-left:20px;"><a href="list.php?id={:$value[id]}" style="{:$value[style]}{if($value[id] == $id)};color:red;{end}">{:$value[catename]}</a></div>
+		<!-- end -->
+	</div>
+	<div class="space_between"><div class="space_between"></div></div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+<div id="right_1">
+	<div class="global_sub">{:$thiscate[catename]}</div>
+	<div class="border_no_top">
+		<!-- $msglist AS $key=>$value -->
+		<div class="list_out" onmouseover="this.className='list_over'" onmouseout="this.className='list_out'">
+			<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td height="23px" width="570px">&nbsp;
+					<!-- if($value[top]) --><img src="images/istop.gif" border="0" align="absmiddle"><!-- else --><img src="images/preart.gif" border="0" align="absmiddle"><!-- end -->&nbsp;
+					<!-- if($value[thumb]) --><img src="images/picture.gif" border="0" align="absmiddle">&nbsp;<!-- end -->
+					<a href="msg.php?id={:$value[id]}" title="{:$value[subject]}" style="{:$value[style]}">{:$value[cut_subject]}</a>
+				</td>
+				<td width="80px" style="color:#007BA8"><a href="list.php?id={:$value[cateid]}" title="{:$value[catename]}">{:$value[v_catename]}</a></td>
+				<td width="50px" style="color:#007BA8">{:$value[hits]}</td>
+				<td width="100px" style="color:#007BA8" align="right">{:$value[postdate]}</td>
+			</tr>
+			</table>
+		</div>
+		<!-- end -->
+		<div align="right">{:$pagelist}</div>
+	</div>
+</div>
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+<!-- inc:inc.foot -->

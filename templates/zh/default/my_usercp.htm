@@ -1,0 +1,95 @@
+<!-- 会员信息页模板 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">广告</div>
+	<div class="border_no_top">
+		<div align="center" style="padding-top:3px;padding-bottom:3px;">
+<script type="text/javascript"><!--
+google_ad_client = "pub-3996640094115586";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+		</div>
+	</div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+<div id="right_1">
+	<div class="global_sub">您好，<span style="color:red;">{:$usermsg[user]}</span></div>
+	<div class="border_no_top">
+		<table width="99%">
+		<tr>
+			<td>
+				<form method="post" action="my.php?file=usercp&act=setok" name="qg_buy" onsubmit="return check_usercp();">
+				<div>联系邮箱：<span style="color:red;">*</span>&nbsp;<input type="text" name="email" id="email" value="{:$usermsg[email]}"> [要更改邮箱请填写]</div>
+				<div class="space_between"><img src="images/blank.gif" border="0" width="1" height="1"></div>
+				<div>会员密码：<span style="color:white;">*</span>&nbsp;<input type="password" name="password" id="cp_password"> [如果您要更改密码，请填上您的新密码即可，不改请留空]</div>
+				<div class="space_between"><img src="images/blank.gif" border="0" width="1" height="1"></div>
+				<div>确认密码：<span style="color:white;">*</span>&nbsp;<input type="password" name="password2" id="cp_password2"> [需要更新密码请填写]</div>
+				<div class="space_between"><img src="images/blank.gif" border="0" width="1" height="1"></div>
+				<div>联系方式：<span style="color:white;">*</span>&nbsp;<input type="text" name="phone" id="phone" value="{:$usermsg[phone]}"> [请填写联系电话或手机号，以便我们能联系上您]</div>
+				<div class="space_between"><img src="images/blank.gif" border="0" width="1" height="1"></div>
+				<div>联系地址：<span style="color:white;">*</span>&nbsp;<input type="text" name="address" id="address" value="{:$usermsg[address]}" style="width:300px"></div>
+				<div class="space_between"><img src="images/blank.gif" border="0" width="1" height="1"></div>
+				<div>邮政编号：<span style="color:white;">*</span>&nbsp;<input type="text" name="zipcode" id="zipcode" value="{:$usermsg[postmail]}" style="width:75px;"> [请填写邮政编号]</div>
+				<div class="space_between" style="height:10px;"><img src="images/blank.gif" border="0" width="1" height="1"></div>
+				<div align="center"><input type="submit" id="order_submit" value="修改个人信息"></div>
+				</form>
+			</td>
+		</tr>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+function check_usercp()
+{
+	var email = $("email").value;
+	if(!email)
+	{
+		alert("请填写邮箱地址");
+		$("email").focus();
+		return false;
+	}
+	if(!checkemail(email))
+	{
+		alert("邮箱填写不正确！");
+		$("email").value = "";
+		$("email").focus();
+		return false;
+	}
+	var pass = $("cp_password").value;
+	var pass2 = $("cp_password2").value;
+	if(pass)
+	{
+		if(pass != pass2)
+		{
+			alert("两次密码输入不一致！要更改密码请填写新密码和确认密码");
+			$("cp_password").value = "";
+			$("cp_password2").value = "";
+			$("cp_password").focus();
+			return false;
+		}
+	}
+	$("order_submit").disabled=true;
+}
+</script>
+
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+
+<!-- inc:inc.foot -->

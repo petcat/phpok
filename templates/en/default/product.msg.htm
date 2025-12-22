@@ -1,0 +1,50 @@
+<!-- 产品内容页默认模板 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">Category &nbsp;<!-- if($rs[parentid]) --><a href="list.php?id={:$rs[parentid]}">Parent</a><!-- end --></div>
+	<div class="border_no_top">
+		<!-- $left_catelist AS $key=>$value -->
+		<div style="padding-left:20px;"><a href="list.php?id={:$value[id]}" style="{:$value[style]}{if($value[id] == $cateid)};color:red;{end}">{:$value[catename]}</a></div>
+		<!-- end -->
+	</div>
+	<div class="space_between"><div class="space_between"></div></div>
+	<div class="global_sub">&nbsp;</div>
+	<div class="border_no_top">
+		<div align="center" style="padding-top:3px;padding-bottom:3px;">{:QGMOD_AD(4)}</div>
+	</div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+
+<div id="right_1">
+	<div class="global_sub">Product: {:$rs[subject]}</div>
+	<div class="border_no_top">
+		<div style="padding:5px;">
+			<div class="dtr">Subject: {:$rs[subject]} <span style="font:italic 10px Arial,Tahoma;color:#C3C3C3">({:$rs[postdate]})</span></div>
+			<div class="wtr">Standard: {:$rs[ext_standard]}</div>
+			<div class="dtr">Number: {:$rs[ext_number]}</div>
+			<div class="wtr">{:$content}<div style="clear:both;"></div></div>
+		</div>
+		<div align="right"><b><font color="#FF0000">☆</font></b>{:$pagelist}</div>
+		<!--<div class="dtr">Market Price: {:$rs[ext_marketprice]} 元</div>-->
+		<!--<div class="wtr">Shop Price: $<span style="color:red;">{:$rs[ext_shopprice]}</span></div>-->
+		<div align="center" style="padding:5px;">
+			<a href="buy.php?id={:$rs[id]}"><img src="images/buy.gif" border="0"></a>
+		</div>
+	</div>
+</div>
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+
+<!-- inc:inc.foot -->

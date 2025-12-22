@@ -1,0 +1,41 @@
+<!-- 读取 编辑器模板信息 -->
+<div>{:$fckeditor}</div>
+<!-- run:unset($fckeditor) -->
+<div class="table">
+<input type="button" value="插入图片" onclick="qg_openpicture();">
+<input type="button" value="添加附件" onclick="qg_openfiles();">
+<input type="button" value="插入分页" onclick="qg_addpagecode();">
+<span class="clue_on">[仅限文章、图片、下载、产品及单页面五大块使用分页功能！其他分页功能无效]</span>
+</div>
+</div>
+<input type="hidden" name="upfiles" id="upfiles" value="">
+<script type="text/javascript">
+function qg_addpagecode()
+{
+	var oEditor = FCKeditorAPI.GetInstance("content");
+	if(oEditor.EditMode == FCK_EDITMODE_WYSIWYG)
+	{
+		oEditor.InsertHtml("[:page:]");
+		return true;
+	}
+	else
+	{
+		alert("请使用可视化编辑模式才能插入分页");
+		return false;
+	}
+}
+function qg_openfiles()
+{
+	//添加附件功能
+	var url;
+	url = "admin.php?file=open.upfiles&act=add&inputname=content";
+	qg_open(url,"510");
+}
+function qg_openpicture()
+{
+	var values = $("upfiles").value;
+	var url;
+	url = "admin.php?file=open.addpic&act=add&values=" + values + "&inputname=content";
+	qg_open(url,"560");
+}
+</script>

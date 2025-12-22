@@ -1,0 +1,164 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 网站信息配置 -->
+<!-- if($sysAct == "add") -->
+<table width="100%">
+<tr>
+	<td class="qg_notice" style="text-align:left;">
+		<a href="admin.php?file=index">系统首页</a>
+		&raquo;
+		<a href="admin.php?file=module&act=list">模块设计</a>
+		&raquo;
+		添加模块设计
+	</td>
+</tr>
+</table>
+<!-- elseif($sysAct == "modify") -->
+<table width="100%">
+<tr>
+	<td class="qg_notice" style="text-align:left;">
+		<a href="admin.php?file=index">系统首页</a>
+		&raquo;
+		<a href="admin.php?file=module&act=list">模块设计</a>
+		&raquo;
+		编辑模块
+	</td>
+</tr>
+</table>
+<!-- else -->
+<table width="100%">
+<tr>
+	<td class="qg_notice" style="text-align:left;">
+		<a href="admin.php?file=index">系统首页</a>
+		&raquo;
+		<a href="admin.php?file=module&act=list&isinc={:$isinc}">模块设计</a>
+	</td>
+</tr>
+</table>
+<!-- end -->
+
+<!-- if($sysAct == "add" || $sysAct == "modify") -->
+<form id="qgform" name="qgform">
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">模块名称：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="text" name="name" id="name" value="{:$rs[name]}">
+		<span class="clue_on">[给模块取个名字，该功能仅限后台使用]</span>
+	</td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">模块文件名：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="text" name="filename" id="filename" value="{:$rs[filename]}" onblur="xajax_xCheckFile(this.value)">
+		<span id="check_filename"></span>
+		<span class="clue_on">[模块文件名仅限英文字母、下划线及数字]</span>
+	</td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">说明：</td>
+	<td class="right">
+		<input type="text" name="note" id="note" value="{:$rs[note]}" class="long_input">
+		<span class="clue_on">[简单说明该模块的功能及应用范围]</span>
+	</td>
+</tr>
+</table>
+</div>
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">PHP代码：</td>
+	<td class="right clue_on">[不熟悉的朋友请从官方网站下载，不要自己操作]</td>
+</tr>
+</table>
+</div>
+<table width="100%" cellpadding="1" cellspacing="1">
+<tr>
+	<td><textarea name="qgphp" id="qgphp" style="width:100%;height:300px;">{:$rs[phpmsg]}</textarea></td>
+</tr>
+</table>
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">调用方法：</td>
+	<td class="right clue_on">[这里的调用方法仅用于说明！让用户可以方便快捷的调用模块信息]</td>
+</tr>
+</table>
+</div>
+<table width="100%" cellpadding="1" cellspacing="1">
+<tr>
+	<td><textarea name="incsign" id="incsign" style="width:100%;height:150px;">{:$rs[incsign]}</textarea></td>
+</tr>
+</table>
+</form>
+<!-- run:$button_msg = $sysAct == "modify" ? "编辑模块" : "添加模块";-->
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><input type="button" id="creat_button" class="mybutton_01" onclick="add_msg(xajax.getFormValues('qgform'));" value="{:$button_msg}"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</table>
+</div>
+<script type="text/javascript">
+function add_msg(msg)
+{
+	var name = $("name").value;
+	//获取内容
+	var note = $("note").value;
+	if(!name)
+	{
+		alert("名称不允许为空");
+		return false;
+	}
+	$("show_step").innerHTML = "<img src='images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+
+	$("creat_button").disabled = true;
+	xajax_xAddMsg(msg);
+}
+</script>
+<!-- else -->
+<!-- $msglist AS $key=>$value -->
+<div id="design_{:$value[id]}" class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+	<table width="100%" style="layout:fixed;" cellpadding="0" cellspacing="0">
+	<tr>
+		<td class="msg_postdate" style="text-align:left;">&nbsp;[ID:{:$value[id]}] {:$value[name]}</td>
+		<td class="msg_subject">
+			<span class="clue_on">&nbsp;{:$value[note]}</span>
+		</td>
+		<td class="msg_postdate" style="text-align:left;">&nbsp;{:$value[incfolder]}</td>
+		<td class="msg_act" style="text-align:left;">
+			<input type="button" value="编辑" class="mybutton_01" onclick="qg_modify({:$value[id]})">
+			<input type="button" value="删除" class="mybutton_01" onclick="qg_delete({:$value[id]})">
+		</td>
+	</tr>
+	</table>
+</div>
+<!-- end -->
+<script type="text/javascript">
+function qg_modify(id)
+{
+	window.location.href="admin.php?file=module&act=modify&id="+id;
+}
+function qg_delete(id)
+{
+	//判断是否删除
+	question = confirm("确认删除该信息吗？特别说明，删除后无法恢复！");
+	if (question != "0")
+	{
+		xajax_xDelete(id);
+	}
+}
+</script>
+<!-- end -->

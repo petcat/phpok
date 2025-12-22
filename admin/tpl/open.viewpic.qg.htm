@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="images/popen.css" />
+<script type="text/javascript" src="images/global.js"></script>
+</head>
+<script type="text/javascript">
+function ok()
+{
+	return true;
+}
+</script>
+<body>
+<!-- 图片预览 -->
+<!-- if($ispicture) -->
+	<!-- if($thumb) -->
+	<img src="{:$thumb}" border="0"><br />
+	<!-- end -->
+	<!-- if($mark) -->
+	<img src="{:$mark}" border="0"><br />
+	<!-- end -->
+	<img src="{:$qgfilename}" border="0">
+<!-- else -->
+<img src="images/download.gif" border="0" title="下载附件"> {:$qgfilename}
+<!-- end -->
+</body>
+</html>

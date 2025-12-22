@@ -1,0 +1,208 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 会员管理 -->
+<!-- if($sysAct == "add" || $sysAct == "modify") -->
+<div class="table2" style="text-align:left;">
+	<a href="admin.php?file=index">系统首页</a> &raquo;
+	<a href="admin.php?file=user&act=list">会员列表</a> &raquo;
+	<!-- if($sysAct == "add") -->添加新会员<!-- else -->编辑会员<!-- end -->
+	<input type="button" value="会员列表" onclick="qgurl('admin.php?file=user&act=list')">
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form method="post" action="admin.php?file=user&act=viewok&id={:$id}" onsubmit="return add_msg();">
+<tr>
+	<td class="left">账号：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="text" name="username" id="username" value="{:$rs[user]}">
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">密码：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="text" name="password" id="password" value="{:$rs[pass]}">
+		<!-- if($sysAct == "modify") -->
+		<span class="clue_on">[不修改密码请不要改动内容]</span>
+		<!-- else -->
+		<span class="clue_on">[默认密码是123456]</span>
+		<!-- end -->
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">姓名：</td>
+	<td class="right">
+		<input type="text" name="realname" id="realname" value="{:$rs[realname]}">
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">性别：</td>
+	<td class="right">
+		<select name="gender">
+		<option value="0"{if($rs[gender] == 0)} selected{end}>不限</option>
+		<option value="1"{if($rs[gender] == 1)} selected{end}>男性</option>
+		<option value="2"{if($rs[gender] == 2)} selected{end}>女性</option>
+		</select>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">邮箱：</td>
+	<td class="right">
+		<input type="text" name="email" id="email" value="{:$rs[email]}">
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">手机或电话：</td>
+	<td class="right">
+		<input type="text" name="phone" id="phone" value="{:$rs[phone]}">
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">联系地址：</td>
+	<td class="right">
+		<input type="text" name="address" id="address" value="{:$rs[address]}" class="long_input">
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">邮政编码：</td>
+	<td class="right">
+		<input type="text" name="zipcode" id="zipcode" value="{:$rs[postmail]}" class="short_input">
+	</td>
+</tr>
+</table>
+</div>
+<!-- run:$button_msg = $sysAct == "modify" ? "编辑会员" : "添加会员";-->
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left"></td>
+	<td class="right"><input type="submit" id="creat_button" class="mybutton_01" value="{:$button_msg}"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</form>
+</table>
+</div>
+<script type="text/javascript">
+function add_msg(msg)
+{
+	var username = $("username").value;
+	if(!username)
+	{
+		alert("账号不允许为空");
+		return false;
+	}
+
+	$("show_step").innerHTML = "<img src='images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+
+	$("creat_button").disabled = true;
+}
+</script>
+
+<!-- elseif($sysAct == "list") -->
+<div class="table2" style="text-align:left;">
+	<a href="admin.php?file=index">系统首页</a> &raquo;
+	会员列表
+	<input type="button" value="添加新会员" onclick="qgurl('admin.php?file=user&act=add')">
+</div>
+
+<div class="table">
+	<table cellpadding="1" cellspacing="0">
+	<form method="post" action="admin.php?file=user&act=list">
+	<tr>
+		<td><input type="text" name="keywords" id="keywords" value="{:$keywords}"></td>
+		<td>
+			<select name="stype" id="stype">
+			<option value="user"{if($stype == "user")} selected{end}>会员</option>
+			<option value="realname"{if($stype == "realname")} selected{end}>真实姓名</option>
+			<option value="email"{if($stype == "email")} selected{end}>邮箱</option>
+			<option value="phone"{if($stype == "phone")} selected{end}>联系方式</option>
+			<option value="address"{if($stype == "address")} selected{end}>联系地址</option>
+			</select>
+		</td>
+		<td>
+			<input type="submit" value="搜索" class="mybutton_01">
+		</td>
+		</form>
+	</tr>
+	</table>
+</div>
+
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr>
+	<td style="border-bottom:1px #D4D4D4 solid;"><img src="images/blank.gif" border="0" width="1" height="1"></td>
+</tr>
+</table>
+
+<table width="100%" cellpadding="0" cellspacing="0">
+<tr class="table table2">
+	<td height="23px" class="msg_subject_id b_b">会员ID</td>
+	<td class="msg_subject b_b">会员账号</td>
+	<td class="msg_subject b_b">会员邮箱</td>
+	<td class="msg_postdate b_b">操作</td>
+</tr>
+<!-- $rslist AS $key=>$value -->
+<tr class="m_out" onmouseover="this.className='m_over'" onmouseout="this.className='m_out'">
+	<td height="25px" align="center" class="b_b">{:$value[id]}</td>
+	<td align="left" class="b_b">{:$value[user]}</td>
+	<td align="left" class="b_b">{:$value[email]}</td>
+	<td align="center" class="b_b">
+		<input type="button" value="编辑" class="mybutton_01" onclick="qg_modify({:$value[id]})">
+		<input type="button" value="删除" class="mybutton_01" onclick="qg_delete({:$value[id]})">
+	</td>
+</tr>
+<!-- end -->
+</table>
+
+<div align="right">{:$pagelist}</div>
+<script type="text/javascript">
+function qg_modify(id)
+{
+	window.location.href="admin.php?file=user&act=modify&id="+id;
+}
+function qg_delete(id)
+{
+	//判断是否删除
+	question = confirm("确认删除该信息吗？特别说明，删除后无法恢复！");
+	if (question != "0")
+	{
+		qgurl("admin.php?file=user&act=delete&id="+id);
+	}
+}
+</script>
+<!-- end -->

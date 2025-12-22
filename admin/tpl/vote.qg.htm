@@ -1,0 +1,269 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- if($sysAct == "add") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a> &raquo;
+	<a href="admin.php?file=vote&act=list">投票列表</a> &raquo;
+	添加投票
+	<input type="button" value="投票管理" onclick="qgurl('admin.php?file=vote&act=list')">
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form name="qgform" method="post" action="admin.php?file=vote&act=addok" onSubmit="return chk_msg(this);">
+<tr>
+	<td class="left">主题：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="text" name="subject" id="subject" class="long_input">
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">类型：<span style="color:red;">*</span></td>
+	<td class="right">
+		<table cellpadding="1" cellspacing="0">
+		<tr>
+			<td><input type="radio" name="vtype" value="single" id="vtype_single" onclick="chk_isall()" checked></td>
+			<td>单选</td>
+			<td><input type="radio" name="vtype" id="vtype_pl" value="pl"></td>
+			<td>多选</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+
+<!-- $vote_array AS $key=>$value -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">选项{:$value}：</td>
+	<td class="right">
+		<table cellpadding="1" cellspacing="0">
+		<tr>
+			<td><input type="text" name="subject_{:$value}" class="long_input"></td>
+			<td><input type="text" name="hits_{:$value}" value="0" class="short_input" style="text-align:center;" title="点击率"></td>
+			<td><input type="checkbox" name="ifcheck_{:$value}" id="ifcheck_{:$value}" onclick="chk_is('ifcheck_{:$value}')" title="默认是否选中，选中请打勾" /></td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+<!-- end -->
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left"></td>
+	<td class="right">
+		<input type="submit" id="creat_button" class="mybutton_01" value="添加投票">
+		&nbsp; <span id="show_step" style="color:red;"></span>
+	</td>
+</tr>
+</form>
+</table>
+</div>
+
+<script type="text/javascript">
+function chk_msg(format)
+{
+	var subject = $("subject").value;
+	if(!subject)
+	{
+		alert("主题不允许为空");
+		return false;
+	}
+	$("show_step").innerHTML = "<img src='admin/tpl/images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+	$("creat_button").disabled = true;
+}
+function chk_isall()
+{
+	var stype = $("vtype_single").checked;
+	var input = document.getElementsByTagName("input");
+	if(stype)
+	{
+		for(var i=0; i<input.length; i++)
+		{
+			if(input[i].type.toLowerCase() == "checkbox")
+			{
+				input[i].checked = false;
+			}
+		}
+	}
+}
+function chk_is(id)
+{
+	chk_isall();
+	$(id).checked = true;
+	//
+}
+</script>
+<!-- elseif($sysAct == "modify") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a> &raquo;
+	<a href="admin.php?file=vote&act=list">投票列表</a> &raquo;
+	编辑投票
+	<input type="button" value="投票管理" onclick="qgurl('admin.php?file=vote&act=list')">
+</div>
+
+<form name="qgform" method="post" action="admin.php?file=vote&act=modifyok&id={:$id}" onSubmit="return chk_msg(this);">
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">主题：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="text" name="subject" id="subject" class="long_input" value="{:$rs[subject]}">
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">类型：<span style="color:red;">*</span></td>
+	<td class="right">
+		<table cellpadding="1" cellspacing="0">
+		<tr>
+			<td><input type="radio" name="vtype" value="single" id="vtype_single" onclick="chk_isall()"{if($rs[vtype] == "single")} checked{end}></td>
+			<td>单选</td>
+			<td><input type="radio" name="vtype" id="vtype_pl" value="pl"{if($rs[vtype] == "pl")} checked{end}></td>
+			<td>多选</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+<!-- $rslist AS $key=>$value -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">已选项{:$value[id]}：</td>
+	<td class="right">
+		<table cellpadding="1" cellspacing="0">
+		<tr>
+			<td><input type="text" name="vsubject_{:$value[id]}" class="long_input" value="{:$value[subject]}"></td>
+			<td><input type="text" name="vhits_{:$value[id]}" value="{:$value[vcount]}" class="short_input" style="text-align:center;" title="点击率"></td>
+			<td><input type="checkbox" name="vifcheck_{:$value[id]}" id="vifcheck_{:$value[id]}" onclick="chk_is('vifcheck_{:$value[id]}')" title="默认是否选中，选中请打勾"{if($value[ifcheck] == 1)} checked{end} /></td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+<!-- end -->
+
+<!-- $vote_array AS $key=>$value -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">新选项{:$value}：</td>
+	<td class="right">
+		<table cellpadding="1" cellspacing="0">
+		<tr>
+			<td><input type="text" name="subject_{:$value}" class="long_input"></td>
+			<td><input type="text" name="hits_{:$value}" value="0" class="short_input" style="text-align:center;" title="点击率"></td>
+			<td><input type="checkbox" name="ifcheck_{:$value}" id="ifcheck_{:$value}" onclick="chk_is('ifcheck_{:$value}')" title="默认是否选中，选中请打勾" /></td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+<!-- end -->
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left"></td>
+	<td class="right">
+		<input type="submit" id="creat_button" class="mybutton_01" value="编辑投票">
+		&nbsp; <span id="show_step" style="color:red;"></span>
+	</td>
+</tr>
+</table>
+</div>
+</form>
+
+<script type="text/javascript">
+function chk_msg(format)
+{
+	var subject = $("subject").value;
+	if(!subject)
+	{
+		alert("主题不允许为空");
+		return false;
+	}
+	$("show_step").innerHTML = "<img src='admin/tpl/images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+	$("creat_button").disabled = true;
+}
+function chk_isall()
+{
+	var stype = $("vtype_single").checked;
+	var input = document.getElementsByTagName("input");
+	if(stype)
+	{
+		for(var i=0; i<input.length; i++)
+		{
+			if(input[i].type.toLowerCase() == "checkbox")
+			{
+				input[i].checked = false;
+			}
+		}
+	}
+}
+function chk_is(id)
+{
+	chk_isall();
+	$(id).checked = true;
+	//
+}
+</script>
+<!-- else -->
+
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a> &raquo; 投票列表
+	<input type="button" value="添加新投票" onclick="qgurl('admin.php?file=vote&act=add')">
+</div>
+
+<!-- $rslist AS $key=>$value -->
+<div id="vote_{:$value[id]}" class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+	<table width="100%" style="layout:fixed;" cellpadding="0" cellspacing="0">
+	<tr>
+		<td class="msg_subject" style="width:80%;">
+			<span class="msg_attr">[ID:{:$value[id]}]</span>
+			{:$value[subject]}
+		</td>
+		<td class="msg_act" style="width:20%;">
+			<input type="button" value="编辑" class="mybutton_01" onclick="qg_modify({:$value[id]})">
+			<input type="button" value="删除" class="mybutton_01" onclick="qg_delete({:$value[id]})">
+		</td>
+	</tr>
+	</table>
+</div>
+<!-- end -->
+<script type="text/javascript">
+function qg_modify(id)
+{
+	window.location.href="admin.php?file=vote&act=modify&id="+id;
+}
+function qg_delete(id)
+{
+	//判断是否删除
+	question = confirm("确认删除该信息吗？特别说明，删除后无法恢复！");
+	if (question != "0")
+	{
+		qgurl("admin.php?file=vote&act=delete&id="+id);
+	}
+}
+</script>
+<!-- end -->
+
+<!-- inc:foot -->

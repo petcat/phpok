@@ -1,0 +1,271 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 公告通知 -->
+<!-- if($sysAct == "add") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a>
+	&raquo;
+	<a href="admin.php?file=job&act=list">招聘列表</a>
+	&raquo;
+	添加招聘信息
+	<input type="button" value="招聘列表" onclick="qgurl('admin.php?file=job&act=list');">
+</div>
+<!-- elseif($sysAct == "modify") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a>
+	&raquo;
+	<a href="admin.php?file=job&act=list">招聘列表</a>
+	&raquo;
+	招聘信息编辑
+	<input type="button" value="招聘列表" onclick="qgurl('admin.php?file=job&act=list');">
+</div>
+<!-- else -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a>
+	&raquo;
+	招聘列表
+	<input type="button" value="添加新招聘" onclick="qgurl('admin.php?file=job&act=add');">
+</div>
+<!-- end -->
+
+<!-- if($sysAct == "add" || $sysAct == "modify") -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form method="post" action="admin.php?file=job&act={:$sysact}ok&id={:$id}" onsubmit="return add_msg();">
+<tr>
+	<td class="left">岗位名称：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="text" name="jobname" id="jobname" class="long_input" value="{:$rs[jobname]}">
+		<span class="clue_on">[填写招聘的岗位名称]</span>
+	</td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">招聘人数：</td>
+	<td class="right">
+		<input type="text" name="usercount" id="usercount" class="short_input" value="{:$rs[usercount]}">
+		<span class="clue_on">
+			[
+			<a href="#" onclick="ucount('1','usercount')">1人</a>
+			<a href="#" onclick="ucount('10','usercount')">10人</a>
+			<a href="#" onclick="ucount('30','usercount')">30人</a>
+			<a href="#" onclick="ucount('不限','usercount')">不限</a>
+			]
+		</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">年龄段要求：</td>
+	<td class="right">
+		<input type="text" name="age" id="age" class="short_input" value="{:$rs[age]}">
+		<span class="clue_on">
+			[
+			<a href="#" onclick="ucount('18-25岁','age')">18-25岁</a>
+			<a href="#" onclick="ucount('20-25岁','age')">20-25岁</a>
+			<a href="#" onclick="ucount('25-35岁','age')">25-35岁</a>
+			<a href="#" onclick="ucount('35岁以下','age')">35岁以下</a>
+			<a href="#" onclick="ucount('35岁以上','age')">35岁以上</a>
+			<a href="#" onclick="ucount('不限','age')">不限</a>
+			]
+		</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">工作经验要求：</td>
+	<td class="right">
+		<input type="text" name="experience" id="experience" value="{:$rs[experience]}">
+		<span class="clue_on">
+			[
+			<a href="#" onclick="ucount('不限','experience')">不限</a>
+			<a href="#" onclick="ucount('至少一年工作经验','experience')">至少一年工作经验</a>
+			<a href="#" onclick="ucount('不少于两年工作经验','experience')">不少于两年工作经验</a>
+			]
+		</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">身高要求：</td>
+	<td class="right">
+		<input type="text" name="height" id="height" value="{:$rs[height]}">
+		<span class="clue_on">
+			[
+			<a href="#" onclick="ucount('155M以上','height')">155M以上</a>
+			<a href="#" onclick="ucount('160M以上','height')">160M以上</a>
+			<a href="#" onclick="ucount('170M以上','height')">170M以上</a>
+			<a href="#" onclick="ucount('175M以上','height')">175M以上</a>
+			<a href="#" onclick="ucount('不限','height')">不限</a>
+			]
+		</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">性别：</td>
+	<td class="right">
+		<select name="gender">
+		<option value="0"{if($rs[gender] == 0)} selected{end}>不限</option>
+		<option value="1"{if($rs[gender] == 1)} selected{end}>男性</option>
+		<option value="2"{if($rs[gender] == 2)} selected{end}>女性</option>
+		</select>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">发布时间：</td>
+	<td class="right">
+		<input type="text" name="postdate" id="postdate" value="{:$rs[postdate]}">
+		<span class="clue_on">[一般不用修改它]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">结束时间：</td>
+	<td class="right">
+		<input type="text" name="enddate" id="enddate" value="{:$rs[enddate]}">
+		<span class="clue_on">[结束时间，为0表示不限制，即长期招聘]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<table width="100%">
+<tr>
+	<td style="text-align:left;"><div class="clue_on">填写招聘的基本信息，这里不支持可视化功能<div><div><textarea name="content" id="content" style="width:100%;height:150px;">{:$rs[content]}</textarea></div></td>
+</tr>
+</table>
+
+<script type="text/javascript">
+function ucount(id,input)
+{
+	$(input).value = id;
+	return true;
+}
+</script>
+<!-- run:$button_msg = $sysAct == "modify" ? "编辑招聘" : "添加招聘";-->
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left"></td>
+	<td class="right"><input type="submit" id="creat_button" class="mybutton_01" value="{:$button_msg}"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</form>
+</table>
+</div>
+
+<script type="text/javascript">
+function add_msg(msg)
+{
+	var jobname = $("jobname").value;
+	if(!jobname)
+	{
+		alert("岗位不允许为空");
+		return false;
+	}
+
+	$("show_step").innerHTML = "<img src='images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+
+	$("creat_button").disabled = true;
+}
+</script>
+<!-- else -->
+
+<!-- $msglist AS $key=>$value -->
+<div id="job_{:$value[id]}">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+	<td bgcolor="#2693FF">
+
+<table width="100%" cellpadding="1" cellspacing="1">
+<tr>
+	<td height="25px" width="10%" bgcolor="#CAE4FF" align="center">招聘岗位</td>
+	<td align="left" bgcolor="#FFFFFF">
+		&nbsp;{:$value[jobname]}
+		<input type="button" value="编辑" class="mybutton_01" onclick="qg_modify({:$value[id]})">
+		<input type="button" value="删除" class="mybutton_01" onclick="qg_delete({:$value[id]})">
+	</td>
+	<td width="8%" align="center" bgcolor="#CAE4FF">招聘人数</td>
+	<td width="8%" align="center" bgcolor="#FFFFFF">{:$value[usercount]}</td>
+	<td width="8%" align="center" bgcolor="#CAE4FF">发布时间</td>
+	<td width="10%" align="center" bgcolor="#FFFFFF">{:$value[postdate]}</td>
+</tr>
+<tr>
+	<td height="25px" align="center" bgcolor="#CAE4FF">基本要求</td>
+	<td bgcolor="#FFFFFF">
+		&nbsp;<!-- if($value[age]) -->年龄：{:$value[age]}，<!-- end -->
+		<!-- if($value[experience]) -->工作经验：{:$value[experience]}，<!-- end -->
+		<!-- if($value[height]) -->身高：{:$value[height]}<!-- end -->
+	</td>
+	<td align="center" bgcolor="#CAE4FF">性别</td>
+	<td align="center" bgcolor="#FFFFFF">{:$value[gender]}</td>
+	<td align="center" bgcolor="#CAE4FF">结束时间</td>
+	<td align="center" bgcolor="#FFFFFF">{:$value[enddate]}</td>
+</tr>
+</table>
+<!-- if($value[content]) -->
+<table width="100%" cellpadding="0" cellspacing="0" bgcolor="#FFFFFF">
+<tr>
+	<td style="height:2px;"><img src="images/blank.gif" width="1" height="1"></td>
+</tr>
+</table>
+<table width="100%" cellpadding="1" cellspacing="1">
+<tr>
+	<td bgcolor="#FFFFFF" style="padding:5px;">{:$value[content]}</td>
+</tr>
+</table>
+<!-- end -->
+	</td>
+</tr>
+</table>
+<br />
+</div>
+<!-- end -->
+<script type="text/javascript">
+function qg_modify(id)
+{
+	qgurl("admin.php?file=job&act=modify&id="+id);
+}
+function qg_delete(id)
+{
+	//判断是否删除
+	question = confirm("确认删除该信息吗？特别说明，删除后无法恢复！");
+	if (question != "0")
+	{
+		qgurl("admin.php?file=job&act=delete&id="+id);
+	}
+}
+</script>
+<!-- end -->
+
+<!-- inc:foot -->

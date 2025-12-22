@@ -1,0 +1,121 @@
+<!-- 网站首页 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+
+<div id="left_2">
+	<!-- 翻页图片 -->
+	<div><!-- inc:inc.picplayer --></div>
+	<!-- 两列文章+一列投票 -->
+	<div style="padding-top:3px;padding-bottom:3px;">
+		<div class="float_left" style="width:365px">
+			<!-- run:$msglist = QGMOD_MSGLIST(2,28,"hits ASC,orderdate DESC,id DESC",false,10) -->
+			<div class="global_sub"><a href="list.php?id={:$msglist[id]}">{:$msglist[catename]}</a></div>
+			<div class="border_no_top">
+				<!-- $msglist["list"] AS $key=>$value -->
+				<div>&nbsp;&#8251; <a href="msg.php?id={:$value[id]}" style="{:$value[style]}" title="{:$value[subject]}">{:$value[cut_subject]}</a></div>
+				<!-- end -->
+			</div>
+			<!-- run:unset($msglist) -->
+		</div>
+		<div class="float_left" style="width:361px;_width:365px;padding-left:2px;padding-right:2px;">
+			<!-- run:$msglist = QGMOD_MSGLIST(3,28,"hits ASC,orderdate DESC,id DESC",false,10) -->
+			<div class="global_sub"><a href="list.php?id={:$msglist[id]}">{:$msglist[catename]}</a></div>
+			<div class="border_no_top">
+				<!-- $msglist["list"] AS $key=>$value -->
+				<div>&nbsp;&#8251; <a href="msg.php?id={:$value[id]}" style="{:$value[style]}" title="{:$value[subject]}">{:$value[cut_subject]}</a></div>
+				<!-- end -->
+			</div>
+			<!-- run:unset($msglist) -->
+		</div>
+		<div style="clear:both;"></div>
+	</div>
+	<!-- 最新图片 -->
+	<div class="border">
+		<div style="padding:3px">
+			<table>
+			<tr>
+				<!-- run:$msglist = QGMOD_PICLIST_ALL("new","picture","21") -->
+				<!-- $msglist AS $key=>$value -->
+				<td style="width:150px;height:150px;margin:1px;border:1px #D4D4D4 solid;text-align:center;"><a href="msg.php?id={:$value[id]}" title="{:$value[subject]}"><img src="{:$value[thumb]}" border="0" width="100px" height="100px" alt="{:$value[subject]}"></a></td>
+				<!-- row:5 -->
+				<!-- end -->
+				<!-- run:unset($msglist) -->
+			</tr>
+			</table>
+		</div>
+	</div>
+	<div class="space_between"><div class="space_between"></div></div>
+	<div>
+		<!-- run:$msglist = QGMOD_PICLIST_ALL("new","product","10") -->
+		<div class="global_sub">最新产品</div>
+		<div class="border_no_top">
+			<table width="99%">
+			<tr>
+				<!-- $msglist AS $key=>$value -->
+				<td width="20%" height="120px" align="center"><a href="msg.php?id={:$value[id]}" title="{:$value[subject]}"><img src="{:$value[thumb]}" border="0" width="100px" height="100px" alt="{:$value[subject]}"></a></td>
+				<td valign="top" width="29%">
+					<div class="wtr">名称：<a href="msg.php?id={:$value[id]}" title="{:$value[subject]}" style="{:$value[style]}">{:$value[cut_subject]}</a></div>
+					<div class="wtr">规格：{:$value[ext_standard]}</div>
+					<div class="dtr">编号：{:$value[ext_number]}</div>
+				</td>
+				<!-- row:2 -->
+				<!-- end -->
+			</tr>
+			</table>
+		</div>
+		<!-- run:unset($msglist) -->
+	</div>
+</div>
+<div id="middle_2"><div class="space_between"></div></div>
+<div id="right_2">
+	<div>
+		<div class="global_sub">站内公告</div>
+		<div class="border_no_top">
+			<div id="notice_1">
+				<div id="notice_2">
+				<!-- run:$notice_list = QGMOD_NOTICE() -->
+				<!-- $notice_list AS $key=>$value -->
+				<div style="padding-left:2px;padding-right:2px;"><a href="{:$value[url]}"{:$value[target]} style="color:darkblue;">{:$value[subject]}</a><em>({:$value[postdate]})</em></div>
+				<div style="padding-left:8px;padding-right:5px;">■ {:$value[content]}</div>
+				<!-- end -->
+				</div>
+				<div id="notice_3"></div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+	marquee("notice_1","notice_2","notice_3");
+	</script>
+	<div class="space_between"><img src="images/blank.gif" border="0" width="1" height="1"></div>
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><img src="images/blank.gif" border="0" width="1" height="1"></div>
+	<div>
+		<!-- run:$special = QGMOD_SPECIAL(1,255) -->
+		<div class="global_sub"><a href="{:$special[url]}">{:$special[subject]}</a></div>
+		<div class="border_no_top"><div style="padding:5px;">　　{:$special[content]}<div align="right"><a href="{:$special[url]}"{:$special[target]}><img src="images/more.jpg" border="0"></a></div></div></div>
+		<!-- run:unset($special) -->
+	</div>
+	<div class="space_between"><div class="space_between"></div></div>
+	<div>
+		<!-- run:$catelist = QGMOD_CATELIST("11,12,25,26,39,43,51,62") -->
+		<div class="global_sub">产品分类</div>
+		<div class="border_no_top">
+			<!-- $catelist AS $key=>$value -->
+			<div style="padding-left:20px;"><a href="list.php?id={:$value[id]}">{:$value[catename]}</a></div>
+			<!-- end -->
+		</div>
+		<!-- run:unset($catelist) -->
+	</div>
+	<div class="space_between"><div class="space_between"></div></div>
+	<div><!-- inc:inc.search --></div>
+</div>
+
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+<!-- inc:inc.foot -->

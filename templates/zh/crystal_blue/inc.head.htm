@@ -1,0 +1,56 @@
+<!-- 公共头部页信息 -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{:$sitetitle}</title>
+<meta name="keywords" content="{:$system[keywords]} /">
+<meta name="description" content="{:$system[description]} /">
+<link rel="stylesheet" type="text/css" href="images/crystal_blue.css" />
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+<script type="text/javascript" src="images/crystal_blue.js"></script>
+</head>
+<body>
+<div id="header">
+	<div class="header">
+	<table width="100%" cellpadding="0" cellspacing="0">
+	<tr>
+		<td width="310px" height="66px"><img src="images/logo.jpg" border="0"></td>
+		<td width="10px" align="right">&nbsp;</td>
+		<td>&nbsp;</td>
+		<td width="300px" align="center"><a href="home.php?langsign=zh"><img src="images/cn.gif" /> 中文</a>&nbsp;&nbsp;<a href="home.php?langsign=en"><img src="images/en.gif" /> English</a></td>
+	</tr>
+	</table>
+	<div id="menu">
+	<ul>
+		<!-- $qgnav AS $key=>$value -->
+		<li><a href="{:$value[url]}" {if($key == 0)}id="menu_home"{end} {if($value[target])}target="_blank"{end} style="{:$value[css]}"><span>{:$value[name]}</span></a></li>
+		<!-- end -->
+		<li id="search">
+			<span style="display:none;"><form method="post" action="search.php?act=searchlink"><input type="hidden" name="stype" value=""></span>
+			<input type="text" id="searchkey" name="keywords" value="{:$keywords}" /><input class="submit" type="submit" name="subjectsearch" value="搜索" />
+			<span style="display:none;"></form></span>
+		</li>
+	</ul>
+	</div>
+	</div>
+</div>
+<div align="center">
+<div id="top">
+	<table cellpadding="0" cellspacing="0" width="100%">
+	<tr>
+		<td width="10px"><img src="images/topnav_left.jpg" border="0"></td>
+		<td style="background:url(images/topnav_bg.jpg) repeat-x" align="left">
+			&#8251;&nbsp;
+			<a href="index.php">{:$system[sitename]}</a>
+			&raquo;
+			<a href="home.php">网站首页</a>
+			<!-- $lead_menu AS $key=>$value -->
+			&raquo; <a href="{:$value[url]}">{:$value[name]}</a>
+			<!-- end -->
+		</td>
+		<td width="10px"><img src="images/topnav_right.jpg" border="0"></td>
+	</tr>
+	</table>
+</div>
+</div>

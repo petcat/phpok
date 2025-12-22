@@ -1,0 +1,25 @@
+<!-- 搜索框 -->
+<div class="global_sub">站内搜索</div>
+<div class="border_no_top">
+	<div align="center">
+	<table>
+	<form method="post" action="search.php?act=searchlink">
+	<tr>
+		<td><input type="text" name="keywords" style="width:120px;" value="{:$keywords}"></td>
+	</tr>
+	<tr>
+		<td>
+			<select name="stype">
+			<option value="">全部</option>
+			<option value="article"{if($stype == "article")} selected{end}>文章</option>
+			<option value="picture"{if($stype == "picture")} selected{end}>图片</option>
+			<option value="download"{if($stype == "download")} selected{end}>下载</option>
+			<option value="product"{if($stype == "product")} selected{end}>产品</option>
+			</select>
+			<input type="submit" value=" 搜 索 " class="button">
+		</td>
+	</tr>
+	</form>
+	</table>
+	</div>
+</div>

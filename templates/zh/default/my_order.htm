@@ -1,0 +1,69 @@
+<!-- 我的订单信息页模板 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+	<div class="global_sub">广告</div>
+	<div class="border_no_top">
+		<div align="center" style="padding-top:3px;padding-bottom:3px;">
+<script type="text/javascript"><!--
+google_ad_client = "pub-3996640094115586";
+google_ad_width = 160;
+google_ad_height = 600;
+//-->
+</script>
+<script type="text/javascript"
+src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+		</div>
+	</div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+<div id="right_1">
+	<div class="global_sub">您好，<span style="color:red;">{:$_SESSION[qg_sys_user][user]}</span></div>
+	<div class="border_no_top">
+		<!-- $orderlist AS $key=>$value -->
+		<div class="list_out" onmouseover="this.className='list_over'" onmouseout="this.className='list_out'">
+			<table cellpadding="0" cellspacing="0">
+			<tr>
+				<td height="23px" width="470px">&nbsp;&nbsp;
+					<!-- if($value[msgid]) -->
+					<a href="msg.php?id={:$value[id]}">{:$value[subject]}</a>
+					<!-- else -->
+					{:$value[subject]}
+					<!-- end -->
+				</td>
+				<td width="50px" style="color:#007BA8">{:$value[msgcount]}</td>
+				<td width="200px" style="color:#007BA8" align="right">{:$value[postdate]}</td>
+			</tr>
+			</table>
+		</div>
+		<!-- end -->
+	</div>
+
+	<div align="right">
+	<table class="pagelist">
+	<tr>
+		<!-- $pagelist AS $key=>$value -->
+			<!-- if($value[status]) -->
+			<td class="m"><strong>{:$value[name]}</strong></td>
+			<!-- else -->
+			<td class="n"><a href="{:$value[url]}">{:$value[name]}</a></td>
+			<!-- end -->
+		<!-- end -->
+	</tr>
+	</table>
+	</div>
+</div>
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+<!-- inc:inc.foot -->

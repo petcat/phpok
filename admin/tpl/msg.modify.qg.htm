@@ -1,0 +1,295 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+<div class="table2">
+	<a href="admin.php?file=index">系统首页</a>
+	&raquo; {:$group[groupname]}
+	&raquo; 编辑内容
+	<input type="button" value="内容列表" onclick="qgurl('admin.php?file=msg&act=list&sysgroupid={:$sysgroupid}');">
+	<input type="button" value="分类列表" onclick="qgurl('admin.php?file=category&act=list&sysgroupid={:$sysgroupid}');">
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form name="qgform" id="qgform" action="admin.php?file=msg&act=modifyok&id={:$id}&sysgroupid={:$sysgroupid}" method="post" onsubmit="return modify_msg();">
+<tr>
+	<td class="left">主题：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="text" name="subject" id="subject" class="long_input" value="{:$rs[subject]}">
+		<select name="style">
+		<!-- $csslist AS $key=>$value -->
+		<option value="{:$value[style]}"{if($rs[style] == $value[style])} selected{end}>{:$value[name]}</option>
+		<!-- end -->
+		</select>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">分类：<span style="color:red;">*</span></td>
+	<td class="right">
+		<select name="cateid" id="cateid">
+		<option value="0" style="color:red;">请选择一个{:$group[groupname]}分类</option>
+		<!-- $catelist AS $key=>$value -->
+		<option value="{:$value[id]}"{if($value[id] == $cateid)} selected{end}>{:$value[space]}{:$value[catename]}</option>
+		<!-- end -->
+		</select> <span class="clue_on">[请选择一个分类]</span>
+	</td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">审核：</td>
+	<td class="right"><input type="radio" name="ifcheck" value="1"{if($rs[ifcheck] && $rs[ifcheck]!=0)} checked{end}>已审核 <input type="radio" name="ifcheck" value="0"{if(!$rs[ifcheck] || $rs[ifcheck]==0)} checked{end}>未审核 <span class="clue_on">[未审核信息在前台无法看到]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">属性：</td>
+	<td class="right">
+		<table>
+		<tr>
+			<td><input type="checkbox" name="istop" value="1"{if($rs[istop] && $rs[istop]!=0)} checked{end}></td>
+			<td>置顶</td>
+			<td><input type="checkbox" name="isvouch" value="1"{if($rs[isvouch] && $rs[isvouch]!=0)} checked{end}></td>
+			<td>推荐</td>
+			<td><input type="checkbox" name="isbest" value="1"{if($rs[isbest] && $rs[isbest]!=0)} checked{end}></td>
+			<td>精华</td>
+			<td><span class="clue_on">[置顶、推荐和精华三个属性，要设置请在相应选项中打勾]</span></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+
+<!-- if($group[isext_url]) -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">链接网址：</td>
+	<td class="right"><input type="text" name="ext_url" id="ext_url" class="long_input" value="{:$rs[ext_url]}"> <span class="clue_on">[输入要链接的网址，注意加 http:// ]</span></td>
+</tr>
+</table>
+</div>
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><span class="clue_on">填写链接网址后，内容是否有效，要看您的信息是如何调用的，请不用担心，本程序的链接网址和内容可以共存</span></td>
+</tr>
+</table>
+</div>
+<!-- end -->
+<!-- if($group[isext_docket]) -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">内容摘要：</td>
+	<td class="right"><textarea name="ext_docket" style="width:400px;height:50px;overflow-y:hidden">{:$rs[ext_docket]}</textarea></td>
+</tr>
+</table>
+</div>
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right clue_on">[不能超200个字符]</td>
+</tr>
+</table>
+</div>
+<!-- end -->
+<!-- if($group[isext_price]) -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">价格：</td>
+	<td class="right">
+		市场价：￥<input type="text" name="ext_marketprice" id="ext_marketprice" class="short_input" value="{:$rs[ext_marketprice]}">
+		商城价：￥<input type="text" name="ext_shopprice" id="ext_shopprice" class="short_input" value="{:$rs[ext_shopprice]}">
+		<span class="clue_on">[仅支持数字和小数点]</span>
+	</td>
+</tr>
+</table>
+</div>
+<!-- end -->
+<!-- if($group[isext_standard]) -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">规格：</td>
+	<td class="right"><input type="text" name="ext_standard" id="ext_standard" value="{:$rs[ext_standard]}"> <span class="clue_on">[该项主要是用于表示商品的一些信息如尺码，也常用于图片的宽高，具体由前台设定]</span></td>
+</tr>
+</table>
+</div>
+<!-- end -->
+<!-- if($group[isext_number]) -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">编号：</td>
+	<td class="right"><input type="text" name="ext_number" id="ext_number" value="{:$rs[ext_number]}"> <span class="clue_on">[该项主要是用于商品条码值或其他设定的编号如SN-001等]</span></td>
+</tr>
+</table>
+</div>
+<!-- end -->
+<!-- if($group[isext_size]) -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">大小：</td>
+	<td class="right"><input type="text" name="ext_size" id="ext_size" class="short_input" value="{:$rs[ext_size]}"> <span class="clue_on">[该项常应用于表示软件或图片的大小如15KB、235KB、100MB等]</span></td>
+</tr>
+</table>
+</div>
+<!-- end -->
+<!-- if($group[is_thumb]) -->
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">缩略图：</td>
+	<td class="right">
+		<input type="button" value="缩略图" onclick="qg_openthumb();">
+		<span id="del_thumb" style="display:none;">
+			<input type="button" value="预览" onclick="preview_thumb();">
+			<input type="button" value="删除" onclick="delete_thumb();">
+		</span>
+		<input type="hidden" name="thumb" id="thumb" value="{:$rs[thumb]}">
+		<span class="clue_on">[仅支持一张缩略图]</span>
+	</td>
+</tr>
+</table>
+</div>
+<div id="preview_photo"></div>
+<script type="text/javascript">
+function qg_openthumb()
+{
+	var values = $("thumb").value;
+	var url;
+	url = "admin.php?file=open.addthumb&act=add&values=" + values;
+	qg_open(url,"540");
+}
+function preview_thumb()
+{
+	var values = $("thumb").value;
+	var url;
+	url = "admin.php?file=open.viewpic&id=" + values + "&type=thumb";
+	qg_open(url,"500");
+}
+function delete_thumb()
+{
+	$("thumb").value = "";
+	$("del_thumb").style.display = "none";
+}
+function chk_thumb()
+{
+	var values = $("thumb").value;
+	if(values && values != "0")
+	{
+		$("del_thumb").style.display = "";
+	}
+}
+chk_thumb();
+</script>
+<!-- end -->
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">内容：</td>
+	<td class="right clue_on">这里使用可视化编辑器，若您的浏览器使用了js过滤，请取消后再刷新即可。第一次打开会比较慢，请稍候...</td>
+</tr>
+</table>
+</div>
+{inc:fckeditor.msg}
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义内容模板：</td>
+	<td class="right"><input type="text" name="tplfile" id="tplfile" value="{:$rs[tplfile]}"> <span class="clue_on">[如果该信息需要专门设置内容模板，请在这里选择，为空使用系统默认]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">点击率：</td>
+	<td class="right"><input type="text" name="hits" id="hits" value="{:$rs[hits]}"> <span class="clue_on"></span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">发布人：</td>
+	<td class="right"><input type="text" name="author" id="author" value="{:$rs[author]}"> <span class="clue_on"></span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">发布时间：</td>
+	<td class="right"><input type="text" name="postdate" id="postdate" value="{run:echo date('Y-m-d H:i:s',$rs[postdate])}"> <span class="clue_on"> [一般不用修改发布时间]</span></td>
+</tr>
+</table>
+</div>
+<!-- 这里开始使用扩展字段的设计 -->
+<!-- $field_array AS $key=>$value -->
+<!-- run:$m = $group["ext_".$key."_name"]; -->
+<!-- run:$ext[ext_value] = $rs["ext_".$key]; -->
+<!-- if($m) -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">{:$m}：</td>
+	<td class="right"><input type="text" name="ext_{:$key}" id="ext_{:$key}" value="{:$ext[ext_value]}" class="long_input"> &nbsp;<span class="clue_on">变量：ext_{:$key}</span></td>
+</tr>
+</table>
+</div>
+<!-- end -->
+<!-- end -->
+
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><input type="submit" id="creat_button" class="mybutton_01" value="编辑信息"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</table>
+</div>
+
+</form>
+
+<script type="text/javascript">
+//js脚本
+function modify_msg()
+{
+	var subject = $("subject").value;
+	if(!subject)
+	{
+		alert("主题不允许为空");
+		return false;
+	}
+	var cateid = $("cateid").value;
+	if(cateid == 0)
+	{
+		alert("分类ID不能为空或0！");
+		return false;
+	}
+	$("show_step").innerHTML = "<img src='images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+	$("creat_button").disabled = true;
+}
+</script>
+
+<!-- inc:foot -->

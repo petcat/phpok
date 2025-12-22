@@ -1,0 +1,200 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<div class="table table1" style="padding-top:3px;padding-bottom:3px;">
+&nbsp;<a href="admin.php?file=index">系统首页</a>
+&raquo; <a href="{:$r_url}&act=list">系统组管理</a>
+<input type="button" value="管理组" onclick="qgurl('{:$r_url}&act=list');">
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form method="post" action="{:$r_url}&act=addok" onsubmit="return chkadd();">
+<tr>
+	<td class="left">系统组名称：<span style="color:red;">*</span></td>
+	<td class="right"><input type="text" name="groupname" id="groupname"> <span class="clue_on">[创建一个系统组名称，如文章、图片等]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">唯一标识：<span style="color:red;">*</span></td>
+	<td class="right"><input type="text" name="sign" id="sign"> <span class="clue_on">[标识仅限英文字母、数字及下划线]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义网址：</td>
+	<td class="right"><input type="radio" name="isext_url" value="1">启用 <input type="radio" name="isext_url" value="0" checked>禁用 <span class="clue_on">[根据需要设置是否需要自己添加网址]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">摘要：</td>
+	<td class="right"><input type="radio" name="isext_docket" value="1" checked>启用 <input type="radio" name="isext_docket" value="0">禁用 <span class="clue_on">[摘要主要应用于信息的部分提取，如文章列表中简单介绍，建议使用]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">缩略图：</td>
+	<td class="right"><input type="radio" name="is_thumb" value="1" checked>启用 <input type="radio" name="is_thumb" value="0">禁用 <span class="clue_on">[是否需要填写缩略图功能，建议启用]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">价格：</td>
+	<td class="right"><input type="radio" name="isext_price" value="1">启用 <input type="radio" name="isext_price" value="0" checked>禁用 <span class="clue_on">[价格应用于销售，启用后会要求填写市场价和商城价]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">规格：</td>
+	<td class="right"><input type="radio" name="isext_standard" value="1">启用 <input type="radio" name="isext_standard" value="0" checked>禁用 <span class="clue_on">[规格亦主要应用于商品，是否启用具体看您的站点性质，默认禁用]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">编号：</td>
+	<td class="right"><input type="radio" name="isext_number" value="1">启用 <input type="radio" name="isext_number" value="0" checked>禁用 <span class="clue_on">[同上]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">大小：</td>
+	<td class="right"><input type="radio" name="isext_size" value="1">启用 <input type="radio" name="isext_size" value="0" checked>禁用 <span class="clue_on">[大小主要应用于软件下载设置的文件大小值]</span></td>
+</tr>
+</table>
+</div>
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right clue_on">所有自定义字段均以文本框显示，其内容最长不超过255字符，下面的信息只要不为空就表示使用该自定义字段</td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义字段0：</td>
+	<td class="right"><input type="text" name="ext_0_name"> <span class="clue_on">[填写自定义字段的名称，只要中文名称即可，下同]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义字段1：</td>
+	<td class="right"><input type="text" name="ext_1_name"> <span class="clue_on">[同上]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义字段2：</td>
+	<td class="right"><input type="text" name="ext_2_name"> <span class="clue_on">[同上]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义字段3：</td>
+	<td class="right"><input type="text" name="ext_3_name"> <span class="clue_on">[同上]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义字段4：</td>
+	<td class="right"><input type="text" name="ext_4_name"> <span class="clue_on">[同上]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义字段5：</td>
+	<td class="right"><input type="text" name="ext_5_name"> <span class="clue_on">[同上]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义字段6：</td>
+	<td class="right"><input type="text" name="ext_6_name"> <span class="clue_on">[同上]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义字段7：</td>
+	<td class="right"><input type="text" name="ext_7_name"> <span class="clue_on">[同上]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义字段8：</td>
+	<td class="right"><input type="text" name="ext_8_name"> <span class="clue_on">[同上]</span></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义字段9：</td>
+	<td class="right"><input type="text" name="ext_9_name"> <span class="clue_on">[同上]</span></td>
+</tr>
+</table>
+</div>
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><input type="submit" id="creat_button" value="创建新组" class="mybutton_01"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</form>
+</table>
+</div>
+<script type="text/javascript">
+function chkadd()
+{
+	var groupname = $("groupname").value;
+	if(!groupname)
+	{
+		alert("系统组名称不允许为空！");
+		return false;
+	}
+	var sign = $("sign").value;
+	if(!sign)
+	{
+		alert("唯一标识不能为空！");
+		return false;
+	}
+	$("show_step").innerHTML = "<img src='images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+	$("creat_button").disabled = true;
+}
+</script>
+<!-- inc:foot -->

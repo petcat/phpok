@@ -1,0 +1,149 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 专题管理 -->
+<!-- if($sysAct == "list") -->
+<table width="100%">
+<tr>
+	<td class="qg_notice" style="text-align:left;">
+		<a href="admin.php?file=index">系统首页</a>
+		&raquo; 单页面内空管理
+		<input type="button" value="添加单页面" onclick="qgurl('admin.php?file=special&act=view');">
+	</td>
+</tr>
+</table>
+
+<!-- $booklist AS $key=>$value -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">
+		<input type="button" value="编辑" class="mybutton_01" onclick="qg_view({:$value[id]})">
+		<!-- if($value[ifcheck]) -->
+		<input type="button" value="正常" class="mybutton_01" id="button_check_{:$value[id]}" onclick="qg_check({:$value[id]})">
+		<!-- else -->
+		<input type="button" value="锁定" class="mybutton_01" id="button_check_{:$value[id]}" style="color:red;" onclick="qg_check({:$value[id]})">
+		<!-- end -->
+		<input type="button" value="删除" class="mybutton_01" onclick="qg_delete({:$value[id]})">
+	</td>
+	<td class="right">
+		<span class="msg_attr">[ID:{:$value[id]}]</span>
+		<a href="admin.php?file=special&act=view&id={:$value[id]}">{:$value[subject]}</a>
+		<span class="msg_attr">[ORDER:{:$value[taxis]}]</span>
+	</td>
+</tr>
+</table>
+</div>
+<!-- end -->
+<script type="text/javascript">
+function qg_check(id)
+{
+	qgurl("admin.php?file=special&act=status&id="+id);
+}
+function qg_view(id)
+{
+	qgurl("admin.php?file=special&act=view&id="+id);
+}
+function qg_delete(id)
+{
+	//判断是否删除
+	question = confirm("确认删除该信息吗？特别说明，删除后无法恢复！");
+	if (question != "0")
+	{
+		qgurl("admin.php?file=special&act=delete&id="+id);
+	}
+}
+</script>
+<!-- elseif($sysAct == "view") -->
+<table width="100%">
+<tr>
+	<td class="qg_notice" style="text-align:left;">
+		<a href="admin.php?file=index">系统首页</a>
+		&raquo; <a href="admin.php?file=special&act=list">专题列表</a>
+		&raquo; {:$lead_title}
+		<input type="button" value="单页面管理" onclick="qgurl('admin.php?file=special&act=list');">
+	</td>
+</tr>
+</table>
+<!-- run:$ifcheck = $rs[ifcheck];-->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form name="qgform" method="post" action="admin.php?file=special&act=viewok&id={:$id}">
+<tr>
+	<td class="left">状态：</td>
+	<td class="right">
+		<table cellpadding="1" cellspacing="0">
+		<tr>
+			<td><input type="radio" name="ifcheck" value="0"{if($ifcheck == 0 || !$ifcheck)} checked{end}></td>
+			<td>锁定</td>
+			<td><input type="radio" name="ifcheck" value="1"{if($ifcheck && $ifcheck != 0)} checked{end}></td>
+			<td>正常</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">主题：<span style="color:red;">*</span></td>
+	<td class="right">
+		<table cellpadding="0" cellspacing="0">
+		<tr>
+			<td><input type="text" name="subject" id="subject" class="long_input" value="{:$rs[subject]}"></td>
+			<td width="1"><img src="" width="0" height="0"></td>
+			<td>
+				<select name="style">
+				<!-- $csslist AS $key=>$value -->
+				<option value="{:$value[style]}"{if($rs[style] == $value[style])} selected{end}>{:$value[name]}</option>
+				<!-- end -->
+				</select>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">排序：</td>
+	<td class="right">
+		<span><input type="text" name="taxis" id="taxis" class="short_input" value="{:$rs[taxis]}"></span>
+		<span class="clue_on">[最大不超过255，值越小越往前靠]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">自定义网址：</td>
+	<td class="right">
+		<span><input type="text" name="myurl" id="myurl" class="long_input" value="{:$rs[url]}"></span>
+		<span class="clue_on">[如果您设置了自定义网址，内容将无效]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+{inc:fckeditor.msg}
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><input type="submit" class="mybutton_01" value="提 交"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</table>
+</div>
+
+</form>
+<!-- end -->
+
+<!-- inc:foot -->

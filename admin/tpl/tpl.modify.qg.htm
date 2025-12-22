@@ -1,0 +1,62 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 添加新模板 -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a> &raquo;
+	<a href="admin.php?file=tpl&act=list">风格管理</a> &raquo;
+	编辑风格设置
+	<input type="button" value="风格管理" onclick="qgurl('admin.php?file=tpl&act=list')">
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form method="post" action="admin.php?file=tpl&act=modifyok&id={:$id}">
+<tr>
+	<td class="left">显示名称：</td>
+	<td class="right">
+		<input type="text" name="tplname" value="{:$rs[name]}">
+		<span class="club_on"> [填写当前模板的名称，仅用于显示]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">文件夹：</td>
+	<td class="right">
+		<input type="text" name="tplfolder" value="{:$rs[folder]}">
+		<span class="club_on"> [填写文件夹的名称，请尽量使用英文字母或数字]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">排序：</td>
+	<td class="right">
+		<input type="text" name="taxis" value="{:$rs[taxis]}" class="short_input">
+		<span class="club_on"> [数值越小越往前靠]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right">
+		<input type="submit" value="编辑风格信息">
+	</td>
+</tr>
+</form>
+</table>
+</div>
+
+<!-- inc:foot -->

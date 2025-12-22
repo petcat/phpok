@@ -1,0 +1,46 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 网站开关配置 -->
+<table width="100%">
+<tr>
+	<td class="qg_notice" style="text-align:left;">
+		<a href="admin.php?file=index">系统首页</a>
+		&raquo; 网站开关设置
+	</td>
+</tr>
+</table>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form method="post" action="admin.php?file=status&act=setok">
+<tr>
+	<td class="left">网站状态：</td>
+	<td class="right">
+		<input type="radio" name="status" value="0"{if($status != 1)} checked{end}>开启
+		<input type="radio" name="status" value="1"{if($status == 1)} checked{end}>关闭
+	</td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">关闭原因：</td>
+	<td class="right"><input type="text" name="content" class="long_input" value="{:$content}"></td>
+</tr>
+</table>
+</div>
+
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left"></td>
+	<td class="right"><input type="submit" id="qgbutton" class="mybutton_01" value="设 置"></td>
+</tr>
+</form>
+</table>
+</div>
+
+<!-- inc:foot -->

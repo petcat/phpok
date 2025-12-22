@@ -1,0 +1,142 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 友情链接 -->
+<!-- if($sysAct == "add") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a>
+	&raquo;
+	<a href="admin.php?file=link&act=list">友情链接</a>
+	&raquo;
+	添加友情链接
+	<input type="button" value="管理友情链接" onclick="qgurl('admin.php?file=link&act=list');">
+</div>
+<!-- elseif($sysAct == "modify") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a>
+	&raquo; <a href="admin.php?file=link&act=list">友情链接</a>
+	&raquo; 编辑友情链接
+	<input type="button" value="管理友情链接" onclick="qgurl('admin.php?file=link&act=list');">
+</div>
+<!-- else -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a>
+	&raquo;
+	友情链接列表 &nbsp;〔友情链接没有建议不要超过100个〕
+	<input type="button" value="添加友情链接" onclick="qgurl('admin.php?file=link&act=add');">
+</div>
+<!-- end -->
+
+<!-- if($sysAct == "add" || $sysAct == "modify") -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form method="post" action="admin.php?file=link&act=setok&id={:$id}" onsubmit="return add_msg();">
+<tr>
+	<td class="left">网站：<span style="color:red;">*</span></td>
+	<td class="right"><input type="text" name="name" id="name" value="{:$rs[name]}"></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">网址：<span style="color:red;">*</span></td>
+	<td class="right">
+		<input type="text" name="qgurl" id="qgurl" class="long_input" value="{:$rs[url]}">
+		<span class="clue_on">[请填写目标地址，注意要加http://]</span>
+	</td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">图片：</td>
+	<td class="right">
+		<input type="text" name="picture" id="picture" class="long_input" value="{:$rs[picture]}">
+		<input type="button" value="选择图片" onclick="to_openpic('picture')">
+		<span class="clue_on">[填写图片地址，使用文字链接请为空]</span>
+	</td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">排序：</td>
+	<td class="right">
+		<input type="text" name="taxis" id="taxis" class="short_input" value="{:$rs[taxis]}">
+		<span class="clue_on">[最大值255，值越小越往前靠]</span>
+	</td>
+</tr>
+</table>
+</div>
+
+<!-- run:$button_msg = $sysAct == "modify" ? "编辑链接" : "添加链接";-->
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><input type="submit" id="creat_button" class="mybutton_01" value="{:$button_msg}"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</form>
+</table>
+</div>
+<script type="text/javascript">
+function add_msg()
+{
+	var name = $("name").value;
+	//获取内容
+	if(!name)
+	{
+		alert("名称不允许为空");
+		return false;
+	}
+	$("show_step").innerHTML = "<img src='images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+
+	$("creat_button").disabled = true;
+}
+function to_openpic(id)
+{
+	var siteurl = "admin.php?file=open.index.img&act=list&id="+id;
+	qg_open(siteurl,"500");
+}
+</script>
+<!-- else -->
+<!-- $msglist AS $key=>$value -->
+<div id="link_{:$value[id]}" class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+	<table width="100%" style="layout:fixed;" cellpadding="0" cellspacing="0">
+	<tr>
+		<td class="msg_subject">
+			<span class="msg_attr">[ID:{:$value[id]}]</span>
+			<a href="admin.php?file=link&act=modify&id={:$value[id]}">{:$value[name]}</a>
+		</td>
+		<td class="msg_postdate" style="text-align:left;width:30%;"><a href="{:$value[url]}" target="_blank">{:$value[url]}</a></td>
+		<td class="msg_hits">{:$value[taxis]}</td>
+		<td width="120px" height="25px">
+			<input type="button" value="编辑" class="mybutton_01" onclick="qg_modify({:$value[id]})">
+			<input type="button" value="删除" class="mybutton_01" onclick="qg_delete({:$value[id]})">
+		</td>
+	</tr>
+	</table>
+</div>
+<!-- end -->
+<script type="text/javascript">
+function qg_modify(id)
+{
+	qgurl("admin.php?file=link&act=modify&id="+id);
+}
+function qg_delete(id)
+{
+	//判断是否删除
+	question = confirm("确认删除该信息吗？特别说明，删除后无法恢复！");
+	if (question != "0")
+	{
+		qgurl("admin.php?file=link&act=delete&id="+id);
+	}
+}
+</script>
+<!-- end -->
+
+<!-- inc:foot -->

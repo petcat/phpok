@@ -1,0 +1,134 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 公告通知 -->
+<!-- if($sysAct == "view") -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a>
+	&raquo;
+	<a href="admin.php?file=notice&act=list">公告列表</a>
+	<!-- if($id) -->
+	&raquo;
+	公告编辑
+	<!-- else -->
+	&raquo;
+	公告添加
+	<!-- end -->
+	<input type="button" value="公告列表" onclick="qgurl('admin.php?file=notice&act=list')">
+</div>
+<!-- else -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a>
+	&raquo;
+	公告列表
+	<input type="button" value="添加新公告" onclick="qgurl('admin.php?file=notice&act=view')">
+</div>
+<!-- end -->
+
+<!-- if($sysact == "view") -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<form method="post" action="{:$r_url}&act=viewok&id={:$id}" onsubmit="add_msg();">
+<tr>
+	<td class="left">主题：<span style="color:red;">*</span></td>
+	<td class="right"><input type="text" name="subject" id="subject" class="long_input" value="{:$rs[subject]}"></td>
+</tr>
+</table>
+</div>
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">网址：</td>
+	<td class="right">
+		<input type="text" name="notice_url" id="notice_url" class="long_input" value="{:$rs[url]}">
+		<span class="clue_on">[启用网址后，内容信息无效]</span>
+	</td>
+</tr>
+</table>
+</div>
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">发布时间：</td>
+	<td class="right">
+		<input type="text" name="postdate" id="postdate" value="{:$rs[postdate]}">
+		<span class="clue_on">[一般不用修改它]</span>
+	</td>
+</tr>
+</table>
+</div>
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">内容：</td>
+	<td class="right clue_on">这里使用可视化编辑器，若您的浏览器使用了js过滤，请取消后再刷新即可。第一次打开会比较慢，请稍候...</td>
+</tr>
+</table>
+</div>
+<!-- run:$content = $rs["content"];-->
+{inc:fckeditor.msg}
+<!-- run:$button_msg = $id ? "编辑公告" : "添加公告";-->
+<div class="table">
+<table width="100%">
+<tr>
+	<td class="left">&nbsp;</td>
+	<td class="right"><input type="submit" id="creat_button" class="mybutton_01" value="{:$button_msg}"> &nbsp; <span id="show_step" style="color:red;"></span></td>
+</tr>
+</form>
+</table>
+</div>
+<script type="text/javascript">
+function add_msg()
+{
+	var subject = $("subject").value;
+	var postdate = $("postdate").value;
+	//获取内容
+	var url = $("url").value;
+	if(!subject)
+	{
+		alert("主题不允许为空");
+		return false;
+	}
+	$("show_step").innerHTML = "<img src='images/loading.gif' border='0' align='absmiddle'> 正在保存数据，如果网页没有动静请刷新...";
+
+	$("creat_button").disabled = true;
+}
+</script>
+<!-- else -->
+
+<!-- $msglist AS $key=>$value -->
+<div id="notice_{:$value[id]}" class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+	<table width="100%" style="layout:fixed;" cellpadding="0" cellspacing="0">
+	<tr>
+		<td class="msg_subject">
+			<span class="msg_attr">[ID:{:$value[id]}]</span>
+			<a href="admin.php?file=notice&act=modify&id={:$value[id]}">{:$value[subject]}</a>
+		</td>
+		<td class="msg_postdate">{:$value[postdate]}</td>
+		<td style="width:150px;text-align:right;height:25px;">
+			<input type="button" value="编辑" class="mybutton_01" onclick="qg_modify({:$value[id]})">
+			<input type="button" value="删除" class="mybutton_01" onclick="qg_delete({:$value[id]})">
+		</td>
+	</tr>
+	</table>
+</div>
+<!-- end -->
+<script type="text/javascript">
+function qg_modify(id)
+{
+	window.location.href="admin.php?file=notice&act=view&id="+id;
+}
+function qg_delete(id)
+{
+	//判断是否删除
+	question = confirm("确认删除该信息吗？特别说明，删除后无法恢复！");
+	if (question != "0")
+	{
+		window.location.href="{:$r_url}&act=delete&id="+id;
+	}
+}
+</script>
+<!-- end -->
+
+<!-- inc:foot -->

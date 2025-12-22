@@ -1,0 +1,99 @@
+<!-- 反馈信息 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<script type="text/javascript">
+function qgcheck()
+{
+	var subject = $("subject").value;
+	if(!subject)
+	{
+		alert("subject is empty");
+		$("subject").focus();
+		return false;
+	}
+	var content = $("content").value;
+	if(!content)
+	{
+		alert("message is empty");
+		return false;
+	}
+	$("qgsubmit").disabled = true;
+	return true;
+}
+function to_delete(mid)
+{
+	var q = confirm("Delete it ?");
+	if(q != "0")
+	{
+		var url = "my.php?file=feedback&act=delete&id="+mid;
+		window.location.href = url;
+	}
+}
+</script>
+
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">Google AD</div>
+	<div class="border_no_top">
+		<div align="center" style="padding-top:3px;padding-bottom:3px;">{:QGMOD_AD(8)}</div>
+	</div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+<div id="right_1">
+	<!-- $feedback_list AS $key=>$value -->
+	<div class="global_sub">{:$value[subject]} <span style="font-size:11px;">({:$value[postdate]})</span></div>
+	<div class="border_no_top">
+		<div style="padding:3px;">{:$value[content]}</div>
+		<!-- if($value[reply]) -->
+		<div style="padding:5px;">
+			<div style="border:1px #D2DFE6 dashed;padding:5px;"><span style="color:red;">Administrator: </span>{:$value[reply]}</div>
+		</div>
+		<!-- end -->
+		<div align="right"><span style="cursor:pointer" onclick="to_delete({:$value[id]})">DELETE</span>&nbsp;</div>
+	</div>
+	<div class="space_between"><div class="space_between"></div></div>
+	<!-- end -->
+
+	<div align="right">{:$pagelist}</div>
+
+	<!-- 提交反馈信息 -->
+	<a name="addbook"></a>
+	<div class="global_sub">ADD</div>
+	<div class="border_no_top">
+		<div>
+		<table width="99%">
+		<form method="post" action="my.php?file=feedback&act=addok" onsubmit="return qgcheck()">
+		<tr>
+			<td align="right"><span style="color:red;">*</span> Subject: </td>
+			<td><input type="text" name="subject" id="subject" style="width:300px;" /></td>
+		</tr>
+		<tr>
+			<td align="right"><span style="color:red;">*</span> Message: </td>
+			<td><textarea name="content" id="content" style="width:90%;height:100px;"></textarea></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><input type="submit" value="Submit" class="button" /></td>
+		</tr>
+		</form>
+		</table>
+		</div>
+	</div>
+
+</div>
+
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+
+<!-- inc:inc.foot -->

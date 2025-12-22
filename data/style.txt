@@ -1,0 +1,6 @@
+||默认样式
+color:red;||红色字
+color:red;font-weight:bold;||红色加粗字体
+color:darkblue;||深蓝色字体
+color:darkblue;font-weight:bold;||深蓝加粗字体
+font-weight:bold;||加粗字体

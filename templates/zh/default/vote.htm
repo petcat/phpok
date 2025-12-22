@@ -1,0 +1,41 @@
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">广告</div>
+	<div class="border_no_top">
+		<div align="center" style="padding-top:3px;padding-bottom:3px;">{:QGMOD_AD(8)}</div>
+	</div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+<div id="right_1">
+	<div class="global_sub">{:$vote_subject}</div>
+	<div class="border_no_top">
+		<div style="padding:5px;">
+			<!-- if($isvote || $act == "view") -->
+				<!-- $vote_list AS $key=>$value -->
+				<div class="vote_list">{:$value[subject]} [{:$value[vcount]}]</div>
+				<div class="vote_img"><img src="images/voteline.gif" border="0" width="{:$value[img_width]}" height="13px" align="absmiddle"> （{:$value[bili]}%）</div>
+				<div class="space_between"><img src="images/blank.gif" border="0" width="1" height="1"></div>
+				<!-- end -->
+			<!-- else -->
+			<div style="display:none;"><form method="post" action="vote.php?id={:$id}&act=submit"></div>
+				<!-- $vote_list AS $key=>$value -->
+				<div class="vote_list">{:$value[vote_input]} {:$value[subject]}</div>
+				<div class="space_between"><img src="images/blank.gif" border="0" width="1" height="1"></div>
+				<!-- end -->
+				<div class="vote_list"><div align="center"><input type="submit" value="投 票"></div></div>
+			<div style="display:none;"></form></div>
+			<!-- end -->
+		</div>
+	</div>
+</div>
+
+<!-- inc:inc.foot -->

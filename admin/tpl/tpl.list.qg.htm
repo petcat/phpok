@@ -1,0 +1,46 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 添加新模板 -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a> &raquo;
+	<a href="admin.php?file=tpl&act=list">风格管理</a>
+	<input type="button" value="添加新风格" onclick="qgurl('admin.php?file=tpl&act=add')">
+</div>
+
+<!-- $rslist AS $key=>$value -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table width="100%">
+<tr>
+	<td class="left">{:$value[name]}</td>
+	<td class="right">
+		<!-- if($value[isdefault]) -->
+		<input type="button" value="默认使用" style="color:red;">
+		<!-- else -->
+		<input type="button" value="设为默认" onclick="qgurl('admin.php?file=tpl&act=setdefault&id={:$value[id]}')">
+		<!-- end -->
+		<input type="button" value="编辑" onclick="to_modify({:$value[id]})">
+		<input type="button" value="删除" onclick="to_delete('{:$value[id]}','{:$value[name]}')">
+	</td>
+</tr>
+</table>
+</div>
+<!-- end -->
+<script type="text/javascript">
+function to_modify(id)
+{
+	var url = "admin.php?file=tpl&act=modify&id=" + id;
+	window.location.href = url;
+}
+function to_delete(id,name)
+{
+	var q = confirm("确定要删除 " + name + " 风格吗？删除后不能恢复！");
+	if(q != "0")
+	{
+		window.location.href = "admin.php?file=tpl&act=delete&id=" + id;
+	}
+}
+</script>
+
+<!-- inc:foot -->

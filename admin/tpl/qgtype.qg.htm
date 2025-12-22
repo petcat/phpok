@@ -1,0 +1,89 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 分类管理 -->
+<table width="100%">
+<tr>
+	<td class="qg_notice" style="text-align:left;">
+		<a href="admin.php?file=index">系统首页</a>
+		&raquo; {:$qgtype_title}分类管理
+	</td>
+</tr>
+</table>
+
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table>
+<form method="post" action="admin.php?file=qgtype&act=addok&qgtype={:$qgtype}" onsubmit="return chkadd();">
+<tr>
+	<td>分类名称：</td>
+	<td><input type="text" name="name" id="cate_name"></td>
+	<td>
+		<input type="radio" name="status" value="0">停用
+		<input type="radio" name="status" value="1" checked>使用
+	</td>
+	<td><input type="submit" value="添加" /></td>
+</tr>
+</form>
+</table>
+</div>
+
+<!-- $catelist AS $key=>$value -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'">
+<table>
+<form method="post" action="admin.php?file=qgtype&act=modifyok&qgtype={:$qgtype}&id={:$value[id]}" onsubmit="return chkmodify({:$value[id]});">
+<tr>
+	<td>分类名称：</td>
+	<td><input type="text" name="name" id="cate_name_{:$value[id]}" value="{:$value[name]}"></td>
+	<td>
+		<input type="radio" name="status" value="0"{if(!$value[status])} checked{end}>停用
+		<input type="radio" name="status" value="1"{if($value[status] == 1)} checked{end}>使用
+	</td>
+	<td><input type="submit" value="编辑" /></td>
+	<td><input type="button" value="删除" onclick="to_delete({:$value[id]})" /></td>
+</tr>
+</form>
+</table>
+</div>
+<!-- end -->
+
+<script type="text/javascript">
+function chkadd()
+{
+	var catename = $("cate_name").value;
+	if(!catename)
+	{
+		alert("分类名称不能为空！");
+		return false;
+	}
+}
+
+function chkmodify(id)
+{
+	if(!id)
+	{
+		alert("操作非法！");
+		return false;
+	}
+	var id_typename = "cate_name_" + id;
+	var catename = $(id_typename).value;
+	if(!catename)
+	{
+		alert("分类名称不允许为空！");
+		return false;
+	}
+}
+function to_delete(id)
+{
+	if(!id)
+	{
+		alert("操作非法！");
+		return false;
+	}
+	question = confirm("确认删除该分类吗？\n\n\t特别说明，如果存在相关信息，删除分类会失败的！");
+	if (question != "0")
+	{
+		window.location.href = "admin.php?file=qgtype&act=delete&qgtype={:$qgtype}&id="+id;
+	}
+}
+</script>

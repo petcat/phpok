@@ -1,0 +1,63 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 应聘信息 -->
+<!-- $msglist AS $key=>$value -->
+<div id="job_{:$value[id]}">
+<table width="100%" cellpadding="0" cellspacing="2">
+<tr>
+	<td bgcolor="#2693FF">
+
+<table width="100%" border="0" cellpadding="1" cellspacing="1">
+  <tr>
+	<td colspan="2" rowspan="3" bgcolor="#FFFFFF"><div align="center"><img src="{:$value[photo]}" border="0" width="100" height="100" onclick="window.open(this.src)"></div></td>
+	<td width="9%" height="30" bgcolor="#CAE4FF"> <div align="center">应聘人姓名</div></td>
+	<td width="15%" bgcolor="#FFFFFF"><div align="center">{:$value[name]}</div></td>
+	<td width="8%" bgcolor="#CAE4FF"><div align="center">应聘岗位</div></td>
+	<td width="17%" bgcolor="#FFFFFF"><div align="center">{:$value[jobname]}</div></td>
+	<td width="5%" bgcolor="#CAE4FF"><div align="center">年龄</div></td>
+	<td width="8%" bgcolor="#FFFFFF"><div align="center">{:$value[age]} 岁</div></td>
+	<td width="7%" bgcolor="#CAE4FF"><div align="center">联系方式</div></td>
+	<td width="16%" bgcolor="#FFFFFF"><div align="center">{:$value[contact]}</div></td>
+  </tr>
+  <tr>
+	<td height="30" bgcolor="#CAE4FF"> <div align="center">文化程度</div></td>
+	<td bgcolor="#FFFFFF"><div align="center">{:$value[schoolage]}</div></td>
+	<td bgcolor="#CAE4FF"><div align="center">联系方式</div></td>
+	<td bgcolor="#FFFFFF"><div align="center">{:$value[contact]}</div></td>
+	<td bgcolor="#CAE4FF"><div align="center">身高</div></td>
+	<td bgcolor="#FFFFFF"><div align="center">{:$value[height]} CM</div></td>
+	<td bgcolor="#CAE4FF"><div align="center">操作时间</div></td>
+	<td bgcolor="#FFFFFF"><div align="center">{:$value[postdate]}</div></td>
+  </tr>
+  <tr>
+	<td height="30" bgcolor="#CAE4FF"><div align="center">其他说明</div></td>
+	<td colspan="7" bgcolor="#FFFFFF" style="padding:5px;"><div align="left">{:$value[note]}</div><input type="button" onclick="qg_delete({:$value[id]})" value="删除"></td>
+  </tr>
+</table>
+
+	</td>
+</tr>
+</table>
+<br />
+</div>
+<!-- end -->
+<!-- if($pagelist) -->
+<div class="table">
+<div align="right">{:$pagelist}</div>
+</div>
+<!-- end -->
+<script type="text/javascript">
+function qg_delete(id)
+{
+	//判断是否删除
+	question = confirm("确认删除该信息吗？特别说明，删除后无法恢复！");
+	if (question != "0")
+	{
+		qgurl("admin.php?file=job&act=app_delete&id="+id);
+	}
+}
+</script>
+
+<!-- inc:foot -->

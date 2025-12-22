@@ -1,0 +1,47 @@
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+	<div class="global_sub">相关分类</div>
+	<div class="border_no_top">
+		<!-- $left_catelist AS $key=>$value -->
+		<div style="padding-left:20px;"><a href="{:$value[url]}" style="{:$value[style]}{if($value[id] == $id)};color:red;{end}"{:$value[target]}>{:$value[subject]}</a></div>
+		<!-- end -->
+	</div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+<div id="right_1">
+	<div class="global_sub">{:$subject}</div>
+	<div class="border_no_top">
+		<div style="padding:5px;">
+			<div>{:$content}</div>
+			<!-- if($pagelist && is_array($pagelist)) -->
+			<div align="right">
+			<div class="pagelist">
+				<!-- $pagelist AS $key=>$value -->
+					<!-- if($value[status]) -->
+					<span class="m"><strong>{:$value[name]}</strong></span>
+					<!-- else -->
+					<span class="n"><a href="{:$value[url]}">{:$value[name]}</a></span>
+					<!-- end -->
+				<!-- end -->
+			</div>
+			<div>
+			<!-- end -->
+		</div>
+	</div>
+</div>
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+<!-- inc:inc.foot -->
+

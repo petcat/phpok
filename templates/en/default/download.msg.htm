@@ -1,0 +1,55 @@
+<!-- 文章内容页默认模板 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">Category &nbsp;<!-- if($rs[parentid]) --><a href="list.php?id={:$rs[parentid]}">Parent</a><!-- end --></div>
+	<div class="border_no_top">
+		<!-- $left_catelist AS $key=>$value -->
+		<div style="padding-left:20px;"><a href="list.php?id={:$value[id]}" style="{:$value[style]}{if($value[id] == $cateid)};color:red;{end}">{:$value[catename]}</a></div>
+		<!-- end -->
+	</div>
+	<div class="space_between"><div class="space_between"></div></div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+<div id="right_1">
+	<div class="global_sub">Subject: {:$rs[subject]}</div>
+	<div class="border_no_top">
+		<div class="msg_sub">{:$rs[subject]}</div>
+		<div class="msg_date">Postdate: {:$rs[postdate]} &nbsp; Hits: {:$rs[hits]}</div>
+		<div class="msg_content">
+			<table width="98%">
+			<tr>
+				<td valign="top" width="50%">
+					<div class="wtr">language: {:$rs[ext_0]}</div>
+					<div class="dtr">license: {:$rs[ext_1]}</div>
+					<div class="wtr">filesize: {:$rs[ext_size]}</div>
+					<div class="dtr">OS:  {:$rs[ext_2]}</div>
+					<div class="wtr">postdate: {:$rs[postdate]}</div>
+					<div class="dtr">hits: {:$rs[hits]}</div>
+					<div class="wtr">demo: <!-- if($rs[ext_4]) --><a href="{:$rs[ext_4]}" target="_blank">click here</a><!-- else -->&nbsp;<!-- end --></div>
+					<div class="dtr">Web: <!-- if($rs[ext_5]) --><a href="{:$rs[ext_5]}" target="_blank">Home Page</a><!-- else -->&nbsp;<!-- end --></div>
+					<div class="wtr">Contact: {:$rs[ext_6]}</div>
+				</td>
+				<td>{:QGMOD_AD(3)}</td>
+			</tr>
+			</table>
+			<div class="tr">{:$content}<div style="clear:both;"></div></div>
+		</div>
+		<div align="right">{:$pagelist}</div>
+	</div>
+</div>
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+
+<!-- inc:inc.foot -->

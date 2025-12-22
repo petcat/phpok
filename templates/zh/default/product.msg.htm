@@ -1,0 +1,50 @@
+<!-- 产品内容页默认模板 -->
+<!-- inc:inc.head -->
+<div align="center">
+<div id="body">
+<div class="table">
+
+<div id="left_1">
+	<div><!-- inc:inc.login --></div>
+	<div class="space_between"><div class="space_between"></div></div>
+
+	<div class="global_sub">当前分类 &nbsp;<!-- if($rs[parentid]) --><a href="list.php?id={:$rs[parentid]}">上级分类</a><!-- end --></div>
+	<div class="border_no_top">
+		<!-- $left_catelist AS $key=>$value -->
+		<div style="padding-left:20px;"><a href="list.php?id={:$value[id]}" style="{:$value[style]}{if($value[id] == $cateid)};color:red;{end}">{:$value[catename]}</a></div>
+		<!-- end -->
+	</div>
+	<div class="space_between"><div class="space_between"></div></div>
+	<div class="global_sub">广告</div>
+	<div class="border_no_top">
+		<div align="center" style="padding-top:3px;padding-bottom:3px;">{:QGMOD_AD(4)}</div>
+	</div>
+</div>
+
+<div id="middle_1"><div class="space_between"></div></div>
+
+
+<div id="right_1">
+	<div class="global_sub">内容：{:$rs[subject]}</div>
+	<div class="border_no_top">
+		<div style="padding:5px;">
+			<div class="dtr">产品名称：{:$rs[subject]} <span style="font:italic 10px Arial,Tahoma;color:#C3C3C3">({:$rs[postdate]})</span></div>
+			<div class="wtr">产品规格：{:$rs[ext_standard]}</div>
+			<div class="dtr">产品编号：{:$rs[ext_number]}</div>
+			<div class="wtr">{:$content}<div style="clear:both;"></div></div>
+		</div>
+		<div align="right">{:$pagelist}</div>
+		<!--<div class="dtr">市场价格：{:$rs[ext_marketprice]} 元</div>-->
+		<!--<div class="wtr">本站价格：<span style="color:red;">{:$rs[ext_shopprice]}</span> 元</div>-->
+		<div align="center" style="padding:5px;">
+			<a href="buy.php?id={:$rs[id]}"><img src="images/buy.gif" border="0"></a>
+		</div>
+	</div>
+</div>
+<div style="clear:both;"></div>
+
+</div>
+</div>
+</div>
+
+<!-- inc:inc.foot -->

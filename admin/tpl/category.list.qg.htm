@@ -1,0 +1,45 @@
+<!-- inc:global_head -->
+<!-- inc:right.css -->
+<!-- inc:right.head -->
+
+<!-- 分类列表 -->
+<div class="table2">
+	&nbsp;<a href="admin.php?file=index">系统首页</a>
+	&raquo; <a href="admin.php?file=sysgroup&act=list">系统组管理</a>
+	&raquo; <a href="admin.php?file=category&act=list&sysgroupid={:$sysgroupid}">{:$groupname}分类列表</a>
+	<input type="button" value="添加根分类" onclick="window.location='admin.php?file=category&act=add&sysgroupid={:$sysgroupid}'">
+</div>
+
+<script language="JavaScript">
+function delete_confirm(aaa)
+{
+	question = confirm("确认删除该分类吗？如果当前分类存在子分类或内容信息，是无法删除的\n\n\t删除后无法恢复！");
+	if (question != "0")
+	{
+		window.location.href="admin.php?file=category&act=delete&sysgroupid={:$sysgroupid}&id="+aaa;
+	}
+}
+</script>
+<!-- $catelist AS $key=>$value -->
+<div class="table" onmouseover="this.className='table table1'" onmouseout="this.className='table'" id="category_id_{:$value[id]}">
+<table>
+<tr>
+	<td>
+		<input type="button" value="编辑" onclick="qgurl('admin.php?file=category&act=modify&id={:$value[id]}');">
+		<input type="button" value="删除" onclick="delete_confirm({:$value[id]});">
+		<input type="button" value="添加子分类" onclick="qgurl('admin.php?file=category&act=add&cateid={:$value[id]}')">
+		<input type="button" value="内容管理" onclick="qgurl('admin.php?file=msg&act=list&sysgroupid={:$sysgroupid}&cateid={:$value[id]}')">
+		<input type="button" value="添加内容" onclick="qgurl('admin.php?file=msg&act=add&cateid={:$value[id]}')">
+	</td>
+	<td>
+		{:$value[space]}{:$value[catename]} <span class="clue_on">[{:$value[id]}]</span>
+		<!-- if(!$value[status] || $value[status] == 0) -->
+		<span style="color:red;">[隐藏]</span>
+		<!-- end -->
+	</td>
+</tr>
+</table>
+</div>
+<!-- end -->
+
+<!-- inc:foot -->
