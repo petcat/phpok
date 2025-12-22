@@ -211,7 +211,11 @@ if($act == "loginok")
 		}
 	}
 	unset($_SESSION["qgLoginChk"],$chk);
-	$rows = $DB->qgGetOne("SELECT * FROM ".$prefix."admin WHERE user='".$username."' AND pass='".md5($password)."' LIMIT 1");
+	$stmt = $DB->prepare("SELECT * FROM ".$prefix."admin WHERE user=? AND pass=? LIMIT 1");
+	$stmt->bindValue(1, $username, SQLITE3_TEXT);
+	$stmt->bindValue(2, md5($password), SQLITE3_TEXT);
+	$result = $stmt->execute();
+	$rows = $result ? $DB->fetchArray($result) : false;
 	if($rows)
 	{
 		$_SESSION["admin"] = $rows;

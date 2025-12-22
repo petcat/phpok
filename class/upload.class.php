@@ -1,15 +1,15 @@
 <?php
 #------------------------------------------------------------------------------
-#[Ğ»ÄúÊ¹ÓÃÇé¸Ğ¼ÒÔ°ÆóÒµÕ¾³ÌĞò£ºqgweb]
-#[±¾³ÌĞòÓÉÇé¸Ğ¿ª·¢Íê³É£¬µ±Ç°°æ±¾£º5.0]
-#[±¾³ÌĞò»ùÓÚLGPLÊÚÈ¨·¢²¼]
-#[Èç¹ûÄúÊ¹ÓÃÕıÊ½°æ£¬Çë½«ÊÚÈ¨ÎÄ¼şÓÃFTPÉÏ´«ÖÁcopyrightÄ¿Â¼ÖĞ]
-#[¹Ù·½ÍøÕ¾£ºwww.phpok.com   www.qinggan.net]
-#[¿Í·şÓÊÏä£ºqinggan@188.com]
-#[ÎÄ¼ş£ºrequest.php]
+#[è°¢æ‚¨ä½¿ç”¨æƒ…æ„Ÿå®¶å›­ä¼ä¸šç«™ç¨‹åºï¼šqgweb]
+#[æœ¬ç¨‹åºç”±æƒ…æ„Ÿå¼€å‘å®Œæˆï¼Œå½“å‰ç‰ˆæœ¬ï¼š5.0]
+#[æœ¬ç¨‹åºåŸºäºLGPLæˆæƒå‘å¸ƒ]
+#[å¦‚æœæ‚¨ä½¿ç”¨æ­£å¼ç‰ˆï¼Œè¯·å°†æˆæƒæ–‡ä»¶ç”¨FTPä¸Šä¼ è‡³copyrightç›®å½•ä¸­]
+#[å®˜æ–¹ç½‘ç«™ï¼šwww.phpok.com   www.qinggan.net]
+#[å®¢æœé‚®ç®±ï¼šqinggan@188.com]
+#[æ–‡ä»¶ï¼šrequest.php]
 #------------------------------------------------------------------------------
 
-#[Ààupload]
+#[ç±»upload]
 class UPLOAD
 {
 	var $path;
@@ -18,7 +18,7 @@ class UPLOAD
 	function UPLOAD($path,$type="png,jpg,gif,rar,zip")
 	{
 		$this->path = $path;
-		//¸üĞÂÎÄ¼şÀàĞÍ
+		//æ›´æ–°æ–‡ä»¶ç±»å‹
 		$this->type = $this->set_type($type);
 	}
 
@@ -53,25 +53,45 @@ class UPLOAD
 		{
 			return false;
 		}
+		
+		// æ£€æŸ¥æ–‡ä»¶æ˜¯å¦æ˜¯é€šè¿‡HTTP POSTä¸Šä¼ çš„
+		if(!isset($_FILES[$var]) || !is_uploaded_file($_FILES[$var]["tmp_name"]))
+		{
+			return false;
+		}
+		
+		// æ£€æŸ¥æ–‡ä»¶ä¸Šä¼ é”™è¯¯
+		if($_FILES[$var]["error"] !== UPLOAD_ERR_OK)
+		{
+			return false;
+		}
+		
 		$file_name = $this->_check($file);
-		if(empty($file_name)) $file_name = time();//Èç¹ûÎÄ¼şÃûÎª¿Õ£¬¸ÕÊ¹ÓÃÊ±¼ä×÷ÎªÎÄ¼şÃû³Æ
-		//¼ì²éÎÄ¼şÃû³ÆÊÇ·ñº¬ÓĞºó×º£¬ÓĞÔòÈ¥µô
-		$file_name = strtolower($file_name);//½«ËùÓĞ´óĞ´¸ÄÎªĞ¡Ğ´
+		if(empty($file_name)) $file_name = time();//å¦‚æœæ–‡ä»¶åä¸ºç©ºï¼Œåˆšä½¿ç”¨æ—¶é—´ä½œä¸ºæ–‡ä»¶åç§°
+		//æ£€æŸ¥æ–‡ä»¶åç§°æ˜¯å¦å«æœ‰åç¼€ï¼Œæœ‰åˆ™å»æ‰
+		$file_name = strtolower($file_name);//å°†æ‰€æœ‰å¤§å†™æ”¹ä¸ºå°å†™
 		//-----
 		$file_type = $this->_file_type($var);
 		if($file_type)
 		{
+			// é¢å¤–çš„å®‰å…¨æ£€æŸ¥ï¼šéªŒè¯æ–‡ä»¶å†…å®¹ç±»å‹
+			if(!$this->validate_file_content($_FILES[$var]["tmp_name"], $file_type))
+			{
+				return false;
+			}
+			
 			if(strpos($file_name,".") === false)
 			{
-				$filename = $file_name.$file_type;//ĞÂµÄÎÄ¼şÃû
+				$filename = $file_name.$file_type;//æ–°çš„æ–‡ä»¶å
 			}
 			else
 			{
 				$filename = $file_name;
 			}
-			#[ÓÉÓÚPHP²»Ö§³Ö¿Í»§¶Ë¼ì²éÎÄ¼ş´óĞ¡£¬¹ÌÕâÀïÃ»ÓĞ¶ÔÎÄ¼ş´óĞ¡½øĞĞÏŞÖÆ]
-			#[Çé¸ĞÆóÒµÕ¾³ÌĞòÔÚºóÌ¨Ö÷ÒªÊÇÔÚ¿Í»§¶Ë¶ÔÉÏ´«½øĞĞ´óĞ¡ÏŞÖÆ£¡]
-			$up = @copy($_FILES[$var]["tmp_name"],$this->path.$filename);
+			
+			#[ç”±äºPHPä¸æ”¯æŒå®¢æˆ·ç«¯æ£€æŸ¥æ–‡ä»¶å¤§å°ï¼Œå›ºè¿™é‡Œæ²¡æœ‰å¯¹æ–‡ä»¶å¤§å°è¿›è¡Œé™åˆ¶]
+			#[æƒ…æ„Ÿä¼ä¸šç«™ç¨‹åºåœ¨åå°ä¸»è¦æ˜¯åœ¨å®¢æˆ·ç«¯å¯¹ä¸Šä¼ è¿›è¡Œå¤§å°é™åˆ¶ï¼]
+			$up = @move_uploaded_file($_FILES[$var]["tmp_name"], $this->path.$filename); // ä½¿ç”¨move_uploaded_fileè€Œä¸æ˜¯copy
 			if($up)
 			{
 				return $filename;
@@ -99,6 +119,19 @@ class UPLOAD
 			$name = explode(".",$_FILES[$var]["name"]);
 			$count = count($name);
 			$type = ".".strtolower($name[$count-1]);
+			
+			// é¢å¤–æ£€æŸ¥ï¼šé˜²æ­¢åŒæ‰©å±•åç»•è¿‡
+			if($count > 2) {
+				$second_type = ".".strtolower($name[$count-2]);
+				// æ£€æŸ¥æ˜¯å¦æ˜¯åŒæ‰©å±•åç»•è¿‡å°è¯•
+				$dangerous_types = ['.php', '.phtml', '.php3', '.php4', '.php5', '.php7', '.asp', '.aspx', '.jsp', '.py', '.sh', '.pl', '.cgi'];
+				foreach($dangerous_types as $dangerous_type) {
+					if($second_type === $dangerous_type || $type === $dangerous_type) {
+						return false;
+					}
+				}
+			}
+			
 			if(strpos($this->type,$type) === false)
 			{
 				return false;
@@ -109,6 +142,45 @@ class UPLOAD
 		{
 			return false;
 		}
+	}
+
+	// éªŒè¯æ–‡ä»¶å†…å®¹æ˜¯å¦ä¸æ‰©å±•ååŒ¹é…
+	function validate_file_content($tmp_name, $extension) {
+		// è¯»å–æ–‡ä»¶çš„å‰å‡ ä¸ªå­—èŠ‚ä»¥ç¡®å®šå®é™…æ–‡ä»¶ç±»å‹
+		$finfo = finfo_open(FILEINFO_MIME_TYPE);
+		$mime_type = finfo_file($finfo, $tmp_name);
+		finfo_close($finfo);
+		
+		// æ ¹æ®æ‰©å±•åå®šä¹‰å…è®¸çš„MIMEç±»å‹
+		$allowed_mimes = array();
+		$extension = strtolower($extension);
+		
+		switch($extension) {
+			case '.jpg':
+			case '.jpeg':
+				$allowed_mimes = array('image/jpeg');
+				break;
+			case '.png':
+				$allowed_mimes = array('image/png');
+				break;
+			case '.gif':
+				$allowed_mimes = array('image/gif');
+				break;
+			case '.rar':
+				$allowed_mimes = array('application/x-rar-compressed', 'application/vnd.rar');
+				break;
+			case '.zip':
+				$allowed_mimes = array('application/zip', 'application/x-zip-compressed');
+				break;
+			case '.gz':
+				$allowed_mimes = array('application/gzip', 'application/x-gzip');
+				break;
+			default:
+				return false;
+		}
+		
+		// æ£€æŸ¥MIMEç±»å‹æ˜¯å¦åœ¨å…è®¸åˆ—è¡¨ä¸­
+		return in_array($mime_type, $allowed_mimes);
 	}
 
 	function _check($file="")
@@ -130,7 +202,7 @@ class UPLOAD
 			if((substr($file,0,1) == "/") || (substr($file,1,2) == ":"))
 			{
 				$this->_make_dir($path);
-				$this->path = $path;//¸üĞÂĞÂÂ·¾¶
+				$this->path = $path;//æ›´æ–°æ–°è·¯å¾„
 			}
 			else
 			{
@@ -145,7 +217,7 @@ class UPLOAD
 		}
 	}
 
-	#[´´½¨Ä¿Â¼]
+	#[åˆ›å»ºç›®å½•]
 	function _make_dir($folder)
 	{
 		$array = explode("/",$folder);
@@ -156,7 +228,7 @@ class UPLOAD
 			$msg .= $array[$i];
 			if(!file_exists($msg) && ($array[$i]))
 			{
-				mkdir($msg,0777);
+				mkdir($msg,0755); // æ›´å®‰å…¨çš„æƒé™è®¾ç½®
 			}
 			$msg .= "/";
 		}

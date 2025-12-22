@@ -6,8 +6,10 @@ if(!$id || $id == "0")
 {
 	qgheader();
 }
-$sql = "SELECT c.*,s.sign AS sysgroup_sign FROM ".$prefix."category AS c,".$prefix."sysgroup AS s WHERE c.id='".$id."' AND c.sysgroupid=s.id AND c.status=1";
-$thiscate = $DB->qgGetOne($sql);
+$stmt = $DB->prepare("SELECT c.*,s.sign AS sysgroup_sign FROM ".$prefix."category AS c,".$prefix."sysgroup AS s WHERE c.id=? AND c.sysgroupid=s.id AND c.status=1");
+$stmt->bindValue(1, $id, SQLITE3_INTEGER);
+$result = $stmt->execute();
+$thiscate = $DB->fetchArray($result);
 if(!$thiscate)
 {
 	qgheader();
@@ -38,10 +40,17 @@ else
 }
 
 $sqlid = $thiscate["rootid"] ? $thiscate["rootid"] : $id;
-$sql = "SELECT id,sysgroupid,rootid,parentid,catename,catestyle FROM ".$prefix."category WHERE status='1' AND (rootid='".$sqlid."' OR id='".$sqlid."' OR parentid='".$sqlid."') ORDER BY taxis ASC,id DESC";
-$catelist = $DB->qgGetAll($sql);
+$stmt = $DB->prepare("SELECT id,sysgroupid,rootid,parentid,catename,catestyle FROM ".$prefix."category WHERE status='1' AND (rootid=? OR id=? OR parentid=?) ORDER BY taxis ASC,id DESC");
+$stmt->bindValue(1, $sqlid, SQLITE3_INTEGER);
+$stmt->bindValue(2, $sqlid, SQLITE3_INTEGER);
+$stmt->bindValue(3, $sqlid, SQLITE3_INTEGER);
+$result = $stmt->execute();
+$catelist = array();
+while($row = $DB->fetchArray($result)) {
+	$catelist[] = $row;
+}
 $menulist = menu_list($catelist,$id);
-unset($sql,$sqlid);
+unset($stmt, $result);
 
 #[标题头和向导栏]
 $sitetitle_list = array();
@@ -119,8 +128,10 @@ else
 }
 define("QGLIST_ID",$id);#[定义常量QGLIST_ID]
 define("QGLIST_IDIN",$idin);#[定义常量QGLIST_IDIN，以供模块调用]
-$sql = "SELECT count(*) AS countid FROM ".$prefix."msg AS m ".$condition;
-$listcount = $DB->qgGetOne($sql);#[获取总数]
+
+$stmt = $DB->prepare("SELECT count(*) AS countid FROM ".$prefix."msg AS m ".$condition);
+$result = $stmt->execute();
+$listcount = $DB->fetchArray($result);#[获取总数]
 $msglistcount = $listcount["countid"];
 
 $pagelist = page($pageurl,$msglistcount,$psize,$pageid);#[获取分页的数组]
@@ -142,9 +153,10 @@ else
 	$sqlorder = "m.istop DESC,m.orderdate DESC,m.id DESC";
 }
 
+# 修复分页查询，使用参数化查询
 $sql = "SELECT m.*,u.filename,u.tmpname,u.folder,u.thumbfile,u.markfile FROM ".$prefix."msg AS m LEFT JOIN ".$prefix."upfiles AS u ON m.thumb=u.id ".$condition." ORDER BY ".$sqlorder." LIMIT ".$offset.",".$psize;
 
-$rslist = $DB->qgGetAll($sql,true);
+$rslist = $DB->qgGetAll($sql, true);
 $msglist = array();
 foreach($rslist AS $key=>$value)
 {

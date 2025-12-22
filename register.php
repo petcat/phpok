@@ -31,14 +31,24 @@ if($act == "regok")
 	{
 		Error($langs["reg_erroremail"],"register.php");
 	}
-	$check_user = $DB->qgGetOne("SELECT * FROM ".$prefix."user WHERE user='".$username."'");
+	$stmt = $DB->prepare("SELECT * FROM ".$prefix."user WHERE user=?");
+	$stmt->bindValue(1, $username, SQLITE3_TEXT);
+	$result = $stmt->execute();
+	$check_user = $result ? $DB->fetchArray($result) : false;
 	if($check_user)
 	{
 		Error($langs["reg_user_exist"],"register.php");
 	}
 	$password = md5($password);
-	$id = $DB->qgInsert("INSERT INTO ".$prefix."user(user,nickname,realname,pass,email,regdate) VALUES('".$username."','".$username."','','".$password."','".$email."','".$system_time."')");
-	$id = $DB->qgInsertID();
+	$stmt = $DB->prepare("INSERT INTO ".$prefix."user(user,nickname,realname,pass,email,regdate) VALUES(?,?,?,?,?,?)");
+	$stmt->bindValue(1, $username, SQLITE3_TEXT);
+	$stmt->bindValue(2, $username, SQLITE3_TEXT);
+	$stmt->bindValue(3, '', SQLITE3_TEXT); // realname is empty
+	$stmt->bindValue(4, $password, SQLITE3_TEXT);
+	$stmt->bindValue(5, $email, SQLITE3_TEXT);
+	$stmt->bindValue(6, $system_time, SQLITE3_INTEGER);
+	$result = $stmt->execute();
+	$id = $result ? $DB->qgInsertID() : false;
 	#[直接登录]
 	$_SESSION["qg_sys_user"]["id"] = $id;
 	$_SESSION["qg_sys_user"]["user"] = $username;

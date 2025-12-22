@@ -17,8 +17,21 @@ require_once("class/string.class.php");
 $STR = new QG_C_STRING(false,false,false);
 
 $magic_quotes_gpc = get_magic_quotes_gpc();
-@extract($STR->format($_POST));
-@extract($STR->format($_GET));
+
+// 安全处理POST和GET数据，避免使用extract()函数
+// 手动处理输入数据，防止变量覆盖漏洞
+foreach($STR->format($_POST) as $key => $value) {
+    if(!is_numeric($key) && preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $key)) {
+        $GLOBALS[$key] = $value;
+    }
+}
+
+foreach($STR->format($_GET) as $key => $value) {
+    if(!is_numeric($key) && preg_match('/^[a-zA-Z_][a-zA-Z0-9_]*$/', $key)) {
+        $GLOBALS[$key] = $value;
+    }
+}
+
 if(!$magic_quotes_gpc)
 {
 	$_FILES = $STR->format($_FILES);

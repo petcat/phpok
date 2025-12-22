@@ -13,7 +13,11 @@ if($act == "loginok")
 	{
 		Error($langs["empty_pass"],"login.php");
 	}
-	$rs = $DB->qgGetOne("SELECT id,user,pass,email FROM ".$prefix."user WHERE user='".$username."' AND pass='".md5($password)."'");
+	$stmt = $DB->prepare("SELECT id,user,pass,email FROM ".$prefix."user WHERE user=? AND pass=?");
+	$stmt->bindValue(1, $username, SQLITE3_TEXT);
+	$stmt->bindValue(2, md5($password), SQLITE3_TEXT);
+	$result = $stmt->execute();
+	$rs = $result ? $DB->fetchArray($result) : false;
 	if(!$rs)
 	{
 		Error($langs["notuser"],"login.php");
