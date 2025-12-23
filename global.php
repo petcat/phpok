@@ -16,9 +16,21 @@ require_once("class/string.class.php");
 
 $STR = new QG_C_STRING(false,false,false);
 
+#[安全处理用户输入 - 不再使用extract()函数]
 $magic_quotes_gpc = get_magic_quotes_gpc();
-@extract($STR->format($_POST));
-@extract($STR->format($_GET));
+$_POST_SAFE = $STR->format($_POST);
+$_GET_SAFE = $STR->format($_GET);
+$_REQUEST_SAFE = $STR->format($_REQUEST);
+
+#[安全处理用户输入变量]
+$username = isset($_POST['username']) ? $STR->safe($_POST['username']) : (isset($_GET['username']) ? $STR->safe($_GET['username']) : '');
+$password = isset($_POST['password']) ? $STR->safe($_POST['password']) : (isset($_GET['password']) ? $STR->safe($_GET['password']) : '');
+$act = isset($_POST['act']) ? $STR->safe($_POST['act']) : (isset($_GET['act']) ? $STR->safe($_GET['act']) : '');
+$id = isset($_POST['id']) ? (int)$_POST['id'] : (isset($_GET['id']) ? (int)$_GET['id'] : 0);
+$pageid = isset($_POST['pageid']) ? (int)$_POST['pageid'] : (isset($_GET['pageid']) ? (int)$_GET['pageid'] : 1);
+$lang = isset($_POST['lang']) ? $STR->safe($_POST['lang']) : (isset($_GET['lang']) ? $STR->safe($_GET['lang']) : '');
+$keyword = isset($_POST['keyword']) ? $STR->safe($_POST['keyword']) : (isset($_GET['keyword']) ? $STR->safe($_GET['keyword']) : '');
+
 if(!$magic_quotes_gpc)
 {
 	$_FILES = $STR->format($_FILES);
@@ -26,8 +38,8 @@ if(!$magic_quotes_gpc)
 
 session_start();
 #[加载数据库]
-require_once("class/mysql.db.class.php");
-$DB = new qgSQL($dbHost,$dbData,$dbUser,$dbPass,false);
+require_once("class/pdo.db.class.php");
+$DB = new qgPDO($dbHost,$dbData,$dbUser,$dbPass,"utf8");
 
 #[加载管理语言包]
 require_once("class/lang.class.php");

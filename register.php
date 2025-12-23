@@ -3,13 +3,13 @@
 require_once("global.php");
 if($act == "regok")
 {
-	$username = SafeHtml($username);
+	$username = $username; // 已在global.php中处理
 	if(!$username)
 	{
 		Error($langs["reg_emptyuser"],"register.php");
 	}
-	$password = SafeHtml($password);
-	$chkpass = SafeHtml($checkpass);
+	$password = $password; // 已在global.php中处理
+	$chkpass = $chkpass; // 已在global.php中处理
 	if(!$password)
 	{
 		Error($langs["reg_emptypass"],"register.php");
@@ -22,7 +22,7 @@ if($act == "regok")
 	{
 		Error($langs["reg_difpass"],"register.php");
 	}
-	$email = SafeHtml($email);
+	$email = $email; // 已在global.php中处理
 	if(!$email)
 	{
 		Error($langs["reg_emptyemail"],"register.php");

@@ -1,0 +1,36 @@
+```
+# Backup files
+*.bak
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.swp
+
+# Editors
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Build artifacts
+dist/
+build/
+target/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+```
