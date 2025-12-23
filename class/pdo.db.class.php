@@ -1,5 +1,5 @@
 <?php
-#[PDO数据库类 - 修复SQL注入安全漏洞]
+#[PDO数据库类 - 修复SQL注入安全漏洞，支持SQLite]
 class qgPDO
 {
     private $pdo;
@@ -9,15 +9,30 @@ class qgPDO
     #[构造函数]
     function __construct($dbhost, $dbdata, $dbuser = "", $dbpass = "", $charset = "utf8")
     {
-        $dsn = "mysql:host={$dbhost};dbname={$dbdata};charset={$charset}";
-        try {
-            $this->pdo = new PDO($dsn, $dbuser, $dbpass, [
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                PDO::ATTR_EMULATE_PREPARES => false,
-            ]);
-        } catch (PDOException $e) {
-            die("数据库连接失败: " . $e->getMessage());
+        // 检查是否为SQLite数据库（通过.db或.sqlite扩展名判断）
+        if (preg_match('/\.db$|\.sqlite$|\.db3$|:memory:/i', $dbdata)) {
+            $dsn = "sqlite:{$dbdata}";
+            try {
+                $this->pdo = new PDO($dsn, null, null, [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES => false,
+                ]);
+            } catch (PDOException $e) {
+                die("SQLite数据库连接失败: " . $e->getMessage());
+            }
+        } else {
+            // 使用MySQL连接
+            $dsn = "mysql:host={$dbhost};dbname={$dbdata};charset={$charset}";
+            try {
+                $this->pdo = new PDO($dsn, $dbuser, $dbpass, [
+                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                    PDO::ATTR_EMULATE_PREPARES => false,
+                ]);
+            } catch (PDOException $e) {
+                die("数据库连接失败: " . $e->getMessage());
+            }
         }
     }
 

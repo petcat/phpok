@@ -9,12 +9,12 @@ $r_url = "admin.php?file=adminer&act=";
 if($sysact == "add" || $sysact == "modify")
 {
 	#[获取块信息功能]
-	$modlist = $DB->qgGetAll("SELECT id,groupname FROM ".$prefix."sysgroup LIMIT 0,100");
+	$modlist = $DB->qgGetAll("SELECT id,groupname FROM " . $prefix . "sysgroup LIMIT 0,100");
 	if($sysAct == "modify")
 	{
 		$id = intval($id);
 		chk_id($id,$r_url."list");#[验证是否正确]
-		$rs = $DB->qgGetOne("SELECT * FROM ".$prefix."admin WHERE id='".$id."'");
+		$rs = $DB->qgGetOne("SELECT * FROM " . $prefix . "admin WHERE id=? LIMIT 1", [$id]);
 		if($rs["user"] == $_SESSION["admin"]["user"])
 		{
 			Error("系统禁止更改自己信息",$r_url."list");
@@ -42,12 +42,12 @@ elseif($sysact == "modifyok")
 	{
 		$modulelist = "";
 	}
-	$rschk = $DB->qgGetOne("SELECT user FROM ".$prefix."admin WHERE id!='".$id."' AND user='".$msg["username"]."'");
+	$rschk = $DB->qgGetOne("SELECT user FROM " . $prefix . "admin WHERE id!=? AND user=? LIMIT 1", [$id, $msg["username"]]);
 	if($rschk)
 	{
 		Error("管理员账号已经存在",$r_url."list");
 	}
-	$rs = $DB->qgGetOne("SELECT pass FROM ".$prefix."admin WHERE id='".$id."'");
+	$rs = $DB->qgGetOne("SELECT pass FROM " . $prefix . "admin WHERE id=? LIMIT 1", [$id]);
 	$msg["password"] = $msg["password"] ? $msg["password"] : "123456";
 	$password = $rs["pass"] == $msg["password"] ? $rs["pass"] : md5($msg["password"]);
 	$sql = "UPDATE ".$prefix."admin SET user='".$msg["username"]."',typer='".$msg["typer"]."',pass='".$password."',email='".$msg["email"]."',modulelist='".$modulelist."' WHERE id='".$id."'";

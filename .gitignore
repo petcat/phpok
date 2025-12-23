@@ -1,6 +1,6 @@
 ```
-# Backup files
-*.bak
+# Database files
+*.db
 
 # Environment
 .env
@@ -18,19 +18,14 @@
 .vscode/
 .idea/
 
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
 # Dependencies
 node_modules/
 venv/
 .venv/
-__pycache__/
-*.pyc
-
-# Build artifacts
-dist/
-build/
-target/
-
-# OS generated files
-.DS_Store
-Thumbs.db
 ```

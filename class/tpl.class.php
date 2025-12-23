@@ -139,7 +139,8 @@ class QG_C_TEMPLATE
 		$c_file = $this->cache."/".$tplid."".$filename.".php";
 		if(!$this->autorefresh && file_exists($c_file))
 		{
-			@extract($this->_value());
+			$tpl_vars = $this->_value();
+			extract($tpl_vars, EXTR_OVERWRITE, "tpl_"); // 使用前缀避免变量冲突
 			include_once($this->cache."/".$tplid."".$filename.".php");
 			return true;
 		}
@@ -170,7 +171,8 @@ class QG_C_TEMPLATE
 			#[将内容写入]
 			$this->_write($content,$c_file);
 			unset($content);
-			@extract($this->_value());
+			$tpl_vars = $this->_value();
+			extract($tpl_vars, EXTR_OVERWRITE, "tpl_"); // 使用前缀避免变量冲突
 			include_once($c_file);
 			return true;
 		}
@@ -189,11 +191,13 @@ class QG_C_TEMPLATE
 			#[将内容写入]
 			$this->_write($content,$c_file);
 			unset($content);
-			@extract($this->_value());
+			$tpl_vars = $this->_value();
+			extract($tpl_vars, EXTR_OVERWRITE, "tpl_"); // 使用前缀避免变量冲突
 			include_once($c_file);
 			return true;
 		}
-		@extract($this->_value());
+		$tpl_vars = $this->_value();
+		extract($tpl_vars, EXTR_OVERWRITE, "tpl_"); // 使用前缀避免变量冲突
 		include($c_file);
 		return true;
 	}

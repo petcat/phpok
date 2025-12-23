@@ -17,15 +17,23 @@ require_once("class/string.class.php");
 $STR = new QG_C_STRING(false,false,false);
 
 $magic_quotes_gpc = get_magic_quotes_gpc();
-@extract($STR->format($_POST));
-@extract($STR->format($_GET));
+
+// 安全处理：不再使用extract()函数，而是手动获取需要的变量
+$post_data = $STR->format($_POST);
+$get_data = $STR->format($_GET);
+
+// 手动获取特定变量，避免变量覆盖漏洞
+$file = isset($post_data['file']) ? $post_data['file'] : (isset($get_data['file']) ? $get_data['file'] : '');
+$act = isset($post_data['act']) ? $post_data['act'] : (isset($get_data['act']) ? $get_data['act'] : '');
+$langid = isset($post_data['langid']) ? $post_data['langid'] : (isset($get_data['langid']) ? $get_data['langid'] : '');
+
 if(!$magic_quotes_gpc)
 {
 	$_FILES = $STR->format($_FILES);
 }
 
-require_once("class/mysql.db.class.php");
-$DB = new qgSQL($dbHost,$dbData,$dbUser,$dbPass,$dbOpenType);
+require_once("class/pdo.db.class.php");
+$DB = new qgPDO($dbHost, $dbData, $dbUser, $dbPass);
 
 include_once("class/file.class.php");
 $FS = new files();
@@ -122,7 +130,7 @@ if($sys_status)
 	#[加载后台设置的常规配置信息]
 	if(!$_SESSION["language"])
 	{
-		$rsLang = $DB->qgGetOne("SELECT id FROM ".$prefix."lang WHERE ifdefault='1'");
+		$rsLang = $DB->qgGetOne("SELECT id FROM " . $prefix . "lang WHERE ifdefault=?", ['1']);
 		if(!$rsLang)
 		{
 			$right_head_language = true;
@@ -211,7 +219,7 @@ if($act == "loginok")
 		}
 	}
 	unset($_SESSION["qgLoginChk"],$chk);
-	$rows = $DB->qgGetOne("SELECT * FROM ".$prefix."admin WHERE user='".$username."' AND pass='".md5($password)."' LIMIT 1");
+	$rows = $DB->qgGetOne("SELECT * FROM " . $prefix . "admin WHERE user=? AND pass=? LIMIT 1", [$username, md5($password)]);
 	if($rows)
 	{
 		$_SESSION["admin"] = $rows;
