@@ -13,7 +13,9 @@ if($act == "loginok")
 	{
 		Error($langs["empty_pass"],"login.php");
 	}
-	$rs = $DB->qgGetOne("SELECT id,user,pass,email FROM ".$prefix."user WHERE user='".$username."' AND pass='".md5($password)."'");
+	$username_esc = $DB->qgEscapeString($username);
+$password_hash = md5($password);
+$rs = $DB->qgGetOne("SELECT id,user,pass,email FROM ".$prefix."user WHERE user='".$username_esc."' AND pass='".$password_hash."'");
 	if(!$rs)
 	{
 		Error($langs["notuser"],"login.php");

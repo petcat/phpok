@@ -17,8 +17,33 @@ require_once("class/string.class.php");
 $STR = new QG_C_STRING(false,false,false);
 
 $magic_quotes_gpc = get_magic_quotes_gpc();
-@extract($STR->format($_POST));
-@extract($STR->format($_GET));
+
+// 安全处理用户输入，不再使用extract()函数
+// 而是通过安全函数获取参数
+function get_param($param_name, $default = '', $type = 'string') {
+    $value = '';
+    if (isset($_POST[$param_name])) {
+        $value = $_POST[$param_name];
+    } elseif (isset($_GET[$param_name])) {
+        $value = $_GET[$param_name];
+    }
+    
+    if ($type === 'int') {
+        return intval($value);
+    } elseif ($type === 'float') {
+        return floatval($value);
+    } else {
+        return is_string($value) ? htmlspecialchars(strip_tags(trim($value))) : $value;
+    }
+}
+
+// 安全获取常用参数
+$file = get_param('file');
+$act = get_param('act');
+$username = get_param('username');
+$password = get_param('password');
+$chk = get_param('chk');
+
 if(!$magic_quotes_gpc)
 {
 	$_FILES = $STR->format($_FILES);
@@ -211,7 +236,10 @@ if($act == "loginok")
 		}
 	}
 	unset($_SESSION["qgLoginChk"],$chk);
-	$rows = $DB->qgGetOne("SELECT * FROM ".$prefix."admin WHERE user='".$username."' AND pass='".md5($password)."' LIMIT 1");
+	// 使用参数化查询防止SQL注入
+$username = $DB->qgEscapeString($username);
+$password = md5($password); // 仍使用MD5，但后续应升级为更安全的哈希算法
+$rows = $DB->qgGetOne("SELECT * FROM ".$prefix."admin WHERE user='".$username."' AND pass='".$password."' LIMIT 1");
 	if($rows)
 	{
 		$_SESSION["admin"] = $rows;

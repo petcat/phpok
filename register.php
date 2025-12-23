@@ -31,13 +31,17 @@ if($act == "regok")
 	{
 		Error($langs["reg_erroremail"],"register.php");
 	}
-	$check_user = $DB->qgGetOne("SELECT * FROM ".$prefix."user WHERE user='".$username."'");
+	$username_check = $DB->qgEscapeString($username);
+$check_user = $DB->qgGetOne("SELECT * FROM ".$prefix."user WHERE user='".$username_check."'");
 	if($check_user)
 	{
 		Error($langs["reg_user_exist"],"register.php");
 	}
+	// 对所有插入数据进行转义
+	$username_esc = $DB->qgEscapeString($username);
+	$email_esc = $DB->qgEscapeString($email);
 	$password = md5($password);
-	$id = $DB->qgInsert("INSERT INTO ".$prefix."user(user,nickname,realname,pass,email,regdate) VALUES('".$username."','".$username."','','".$password."','".$email."','".$system_time."')");
+	$id = $DB->qgInsert("INSERT INTO ".$prefix."user(user,nickname,realname,pass,email,regdate) VALUES('".$username_esc."','".$username_esc."','','".$password."','".$email_esc."','".$system_time."')");
 	$id = $DB->qgInsertID();
 	#[直接登录]
 	$_SESSION["qg_sys_user"]["id"] = $id;

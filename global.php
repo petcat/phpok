@@ -17,8 +17,33 @@ require_once("class/string.class.php");
 $STR = new QG_C_STRING(false,false,false);
 
 $magic_quotes_gpc = get_magic_quotes_gpc();
-@extract($STR->format($_POST));
-@extract($STR->format($_GET));
+
+// 安全处理用户输入，不再使用extract()函数
+// 而是通过安全函数获取参数
+function get_param($param_name, $default = '', $type = 'string') {
+    $value = '';
+    if (isset($_POST[$param_name])) {
+        $value = $_POST[$param_name];
+    } elseif (isset($_GET[$param_name])) {
+        $value = $_GET[$param_name];
+    }
+    
+    if ($type === 'int') {
+        return intval($value);
+    } elseif ($type === 'float') {
+        return floatval($value);
+    } else {
+        return is_string($value) ? htmlspecialchars(strip_tags(trim($value))) : $value;
+    }
+}
+
+// 安全获取常用参数
+$id = get_param('id', '', 'int');
+$act = get_param('act');
+$file = get_param('file');
+$pageid = get_param('pageid', 1, 'int');
+$langid = get_param('langid', '', 'int');
+
 if(!$magic_quotes_gpc)
 {
 	$_FILES = $STR->format($_FILES);

@@ -16,4 +16,10 @@ $urlRewrite = false;
 
 #[后台是否启用验证码功能，使用为true，不使用为false]
 $isCheckCode = true;
+
+# 防止直接访问
+if (!defined('PHPOK_SET')) {
+    header('HTTP/1.1 403 Forbidden');
+    exit('Access denied');
+}
 ?>

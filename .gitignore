@@ -1,0 +1,56 @@
+```
+# Backup files
+*.bak
+
+# Environment
+.env
+.env.local
+*.env.*
+
+# Logs
+*.log
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*.tmp
+
+# Dependencies
+node_modules/
+vendor/
+*.lock
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Compiled files
+*.class
+*.pyc
+__pycache__/
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+
+# Build artifacts
+build/
+dist/
+target/
+*.jar
+*.war
+
+# Coverage
+coverage/
+htmlcov/
+.coverage
+
+# Cache
+.cache/
+.mypy_cache/
+.pytest_cache/
+.gradle/
+```
